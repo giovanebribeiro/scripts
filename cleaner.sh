@@ -9,9 +9,9 @@
 
 
 # Verifica de qual distro pertence a distribuicao
-function distCheck(){
-
-}
+#function distCheck(){
+#
+#}
 
 . /etc/rc.conf
 . /etc/rc.d/functions

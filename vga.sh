@@ -2,6 +2,7 @@
 
 ##
 # Arquivo: vga.sh
+# Licença: GPL
 # Autor: Giovane
 # Responsavel pelo chaveamento entre os monitores externos o display do laptop
 ##

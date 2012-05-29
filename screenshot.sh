@@ -4,6 +4,7 @@
 # Arquivo: screenshot.sh
 # Objetivo: Automatizar a operacao de printscreen em distros onde esta operacao nao eh suportada por default
 # Autor: Giovane Boaviagem Ribeiro (Baseado no script de Edsandro Freitas)
+# Licença: GPL
 # 
 # Dependencia: imagemagick
 # 
