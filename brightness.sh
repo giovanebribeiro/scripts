@@ -4,6 +4,9 @@
 # Arquivo: brightness.sh
 # Autor: Giovane Boaviagem Ribeiro
 # Objetivo: Alterar o brilho do monitor
+# Uso: brightness.sh [opções]
+# -u 	Aumenta o brilho do monitor
+# -d	Reduz o brilho do monitor
 ##
 
 op=$1
