@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ##
 # Arquivo: vga.sh
@@ -7,19 +7,15 @@
 # Responsavel pelo chaveamento entre os monitores externos o display do laptop
 ##
 
-# Quando o xrandr é executado junto com o cairo-compmgr dá problema. Por isso, o cairo deve ser eliminado antes da sobreposição e retomado depois.
-teste=`ps axu | grep cairo-compmgr | grep -v grep`
+IN=LVDS
+EXT=VGA-0
 
-if ! xrandr | grep VGA-0 | grep disconnected >/dev/null ; then	
-	if [ "$teste" ] ; then
-		killall cairo-compmgr
-	fi
-
-	xrandr --output LVDS --mode 1600x900 --output VGA-0 --mode 1024x768 --above LVDS --rate 75
-else	
-	xrandr --auto
-
-	if [ ! "$teste" ] ; then
-		cairo-compmgr &
-	fi
+if (xrandr | grep "$EXT" | grep "+")
+	then
+	xrandr --output $EXT --off --output $IN --auto
+	else
+		if (xrandr | grep "$EXT" | grep "connected")
+			then
+			xrandr --output $IN --off --output $EXT --auto
+		fi
 fi
