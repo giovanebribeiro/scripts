@@ -1,0 +1,89 @@
+#!/bin/bash
+
+##
+# Arquivo: srvtoolbox
+# Objetivo: Contem funcoes uteis para o gerenciamento de servidores caseiros
+# Criacao: 18/12/2012
+##
+
+VERSION="1.0"
+LOG="/var/log/toolbox.log"
+
+# este script so pode ser executado como root.
+if [ "$(whoami)" != "root" ] ; then	
+	_s=$(which sudo 2>/dev/null)		
+	echo "Este script deve ser executado como root:"
+	
+	if [ -n "$_s" ] ; then
+		sudo "$0" $@
+	else
+		su -c "'$0' $@"
+	fi
+	exit 0
+fi
+
+
+##
+# FUNCTIONS
+##
+
+usage(){
+	echo "Usage: sh $0 OPTIONS"
+	echo ""
+	echo "	OPTIONS:"
+	echo "		-h		Mostra esta mensagem"
+	echo "		-v		Mostra a versao do script"
+	echo "		-b		Backup do systema inteiro, excluindo as pastas: /mnt/hd, /boot, /sys, /dev, /proc"
+	echo "		-r		Restore of entire system"
+}	
+
+version(){
+	echo "toolbox $VERSION"
+}
+
+backup(){
+	BACKUP_PARENT_FOLDER="$1"
+	SRC="/*"
+	
+	SNAP="$BACKUP_PARENT_FOLDER/latest"
+	DATETAG=$(date +%d-%m-%Y)
+	BKP_FOLDER="$BACKUP_PARENT_FOLDER/$DATETAG"
+	OPTS="-aAXv --link-dest=$SNAP --exclude={/dev/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/home/*/.gvfs}"
+
+	# run this process with low priority
+	ionice -c 3 -p $$
+	renice +12 -p $$
+
+	# create the folder if don't exist:
+	if [ ! -d "$BACKUP_PARENT_FOLDER" ] ; then
+		mkdir -p $BACKUP_PARENT_FOLDER
+	fi
+
+	#sync
+	START=$(date +%s)
+
+	rsync $OPTS $SRC $BKP_FOLDER > $LOG
+	rm -f $SNAP
+	ln -s $BKP_FOLDER $SNAP
+	
+	FINISH=$(date +%s)
+	echo "Backup of $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds" >> $LOG
+	
+}
+
+restore(){
+	echo "restore: $1"
+}
+
+##
+# MAIN LOOP
+##
+while getopts hvb:r: OPTION; do
+	case "${OPTION}" in
+		h) usage;;
+		v) version;;
+		b) backup ${OPTARG};;
+		r) restore ${OPTARG};;
+	esac
+done		
+
