@@ -33,7 +33,7 @@ usage(){
 	echo "	OPTIONS:"
 	echo "		-h		Mostra esta mensagem"
 	echo "		-v		Mostra a versao do script"
-	echo "		-b		Backup do systema inteiro, excluindo as pastas: /mnt/hd, /boot, /sys, /dev, /proc"
+	echo "		-b		Backup do systema inteiro"
 	echo "		-r		Restore of entire system"
 }	
 
