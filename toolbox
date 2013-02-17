@@ -7,7 +7,7 @@
 ##
 
 VERSION="1.0"
-LOG="/var/log/toolbox.log"
+LOG_FOLDER="/var/log/toolbox"
 
 # este script so pode ser executado como root.
 if [ "$(whoami)" != "root" ] ; then	
@@ -31,10 +31,10 @@ usage(){
 	echo "Usage: sh $0 OPTIONS"
 	echo ""
 	echo "	OPTIONS:"
-	echo "		-h		Mostra esta mensagem"
-	echo "		-v		Mostra a versao do script"
-	echo "		-b		Backup do systema inteiro"
-	echo "		-r		Restore of entire system"
+	echo "	* -h			Mostra esta mensagem"
+	echo "	* -v			Mostra a versao do script"
+	echo "	* -b	[PARENT_FOLDER]	Backup do systema inteiro, para armazenar na pasta PARENT_FOLDER"
+	echo "	* -r			Restore of entire system"
 }	
 
 version(){
@@ -44,16 +44,14 @@ version(){
 backup(){
 	BACKUP_PARENT_FOLDER="$1"
 	SRC="/*"
-	
 	SNAP="$BACKUP_PARENT_FOLDER/latest"
 	DATETAG=$(date +%d-%m-%Y)
 	BKP_FOLDER="$BACKUP_PARENT_FOLDER/$DATETAG"
-	OPTS="-aAXv --link-dest=$SNAP --exclude={/dev/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/home/*/.gvfs}"
-
+	OPTS="-aAXv --link-dest=$SNAP --exclude=/dev --exclude=/proc --exclude=/sys --exclude=/tmp --exclude=/run --exclude=/mnt --exclude=/media --exclude=/lost+found --exclude=/home/*/.gvfs"
+	LOG_BACKUP="$LOG_FOLDER/backup/$DATETAG"
 	# run this process with low priority
 	ionice -c 3 -p $$
 	renice +12 -p $$
-
 	# create the folder if don't exist:
 	if [ ! -d "$BACKUP_PARENT_FOLDER" ] ; then
 		mkdir -p $BACKUP_PARENT_FOLDER
@@ -62,12 +60,12 @@ backup(){
 	#sync
 	START=$(date +%s)
 
-	rsync $OPTS $SRC $BKP_FOLDER > $LOG
+	rsync $OPTS $SRC $BKP_FOLDER > $LOG_BACKUP
 	rm -f $SNAP
 	ln -s $BKP_FOLDER $SNAP
 	
 	FINISH=$(date +%s)
-	echo "Backup of $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds" >> $LOG
+	echo "Backup of $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds" >> $LOG_BACKUP
 	
 }
 
