@@ -1,18 +1,35 @@
 #!/bin/bash
 
 ##
-# Arquivo: srvtoolbox
-# Objetivo: Contem funcoes uteis para o gerenciamento de servidores caseiros
-# Criacao: 18/12/2012
+# File: toolbox
+# Author: Giovane Boaviagem <giovanebribeiro@gmail.com>
+# Description: Toolbox for arch linux servers
+# Since: 21/02/2013
+#
+#  This file is free software: you may copy, redistribute and/or modify it  
+#  under the terms of the GNU General Public License as published by the  
+#  Free Software Foundation, either version 2 of the License, or (at your  
+#  option) any later version.  
+#  
+#  This file is distributed in the hope that it will be useful, but  
+#  WITHOUT ANY WARRANTY; without even the implied warranty of  
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU  
+#  General Public License for more details.  
+#  
+#  You should have received a copy of the GNU General Public License  
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.  
 ##
 
-VERSION="1.0"
-LOG_FOLDER="/var/log/toolbox"
+# Includes of other scripts of toolbox set
+. util								# Util functions and global variables
+. backup							# Backup and restore functions
+. cleaner							# Functions for cleaning
+
 
 # este script so pode ser executado como root.
 if [ "$(whoami)" != "root" ] ; then	
 	_s=$(which sudo 2>/dev/null)		
-	echo "Este script deve ser executado como root:"
+	echo "This scrpt must be executed as root:"
 	
 	if [ -n "$_s" ] ; then
 		sudo "$0" $@
@@ -26,52 +43,23 @@ fi
 ##
 # FUNCTIONS
 ##
-
-usage(){
-	echo "Usage: sh $0 OPTIONS"
-	echo ""
-	echo "	OPTIONS:"
-	echo "	* -h			Mostra esta mensagem"
-	echo "	* -v			Mostra a versao do script"
-	echo "	* -b	[PARENT_FOLDER]	Backup do systema inteiro, para armazenar na pasta PARENT_FOLDER"
-	echo "	* -r			Restore of entire system"
-}	
-
 version(){
 	echo "toolbox $VERSION"
+    echo "Author: $AUTHOR"
 }
 
-backup(){
-	BACKUP_PARENT_FOLDER="$1"
-	SRC="/*"
-	SNAP="$BACKUP_PARENT_FOLDER/latest"
-	DATETAG=$(date +%d-%m-%Y)
-	BKP_FOLDER="$BACKUP_PARENT_FOLDER/$DATETAG"
-	OPTS="-aAXv --link-dest=$SNAP --exclude=/dev --exclude=/proc --exclude=/sys --exclude=/tmp --exclude=/run --exclude=/mnt --exclude=/media --exclude=/lost+found --exclude=/home/*/.gvfs"
-	LOG_BACKUP="$LOG_FOLDER/backup/$DATETAG"
-	# run this process with low priority
-	ionice -c 3 -p $$
-	renice +12 -p $$
-	# create the folder if don't exist:
-	if [ ! -d "$BACKUP_PARENT_FOLDER" ] ; then
-		mkdir -p $BACKUP_PARENT_FOLDER
-	fi
-
-	#sync
-	START=$(date +%s)
-
-	rsync $OPTS $SRC $BKP_FOLDER > $LOG_BACKUP
-	rm -f $SNAP
-	ln -s $BKP_FOLDER $SNAP
-	
-	FINISH=$(date +%s)
-	echo "Backup of $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds" >> $LOG_BACKUP
-	
+usage(){
+	version
+    echo "syntax: $0 [OPTIONS] [PARAMS]"
+    echo "  OPTIONS:"
+    echo "    -h            					: Shows thes help"    
+    echo "    -v          						: Shows the version"
+    echo "    -b	PARENT_BACKUP_FOLDER        : Do a complete backup to a folder under PARENT_BACKUP_FOLDER"
+    echo "    -r    RESTORE_FOLDER  			: Do a complete restore from RESTORE_FOLDER to a '/' directory"
+    echo "    -c   								: Complete cleaning"
 }
 
-restore(){
-	echo "restore: $1"
-}
+
 
 ##
 # MAIN LOOP

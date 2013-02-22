@@ -1,0 +1,124 @@
+#!/bin/sh
+##
+# File: cleaner
+# Author: Giovane Boaviagem <giovanebribeiro@gmail.com> (Based on Renan Tomal Fernandes' script)
+# Description: Functions for cleaning
+# Since: 21/02/2013
+#
+#  This file is free software: you may copy, redistribute and/or modify it  
+#  under the terms of the GNU General Public License as published by the  
+#  Free Software Foundation, either version 2 of the License, or (at your  
+#  option) any later version.  
+#  
+#  This file is distributed in the hope that it will be useful, but  
+#  WITHOUT ANY WARRANTY; without even the implied warranty of  
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU  
+#  General Public License for more details.  
+#  
+#  You should have received a copy of the GNU General Public License  
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.  
+##
+
+filename="cleaner"
+DATETAG=$(date +%d-%m-%Y)
+
+##
+# clean_logs()
+##
+clean_logs(){
+	log_folder="/var/log"
+	
+	# if the log folder don't exist, create
+	if [ ! -d $LOG_FOLDER ] ; then		
+		mkdir -p $LOG_FOLDER
+	fi
+	
+	log "$filename" "**** Log Folder: $(du -sh '$log_folder')"
+	log "$filename" "** Before: $(du -sh '$log_folder')"	
+	
+	find "$log_folder" | 
+		while read line; do
+			if [ -f $line ] ; then
+				echo '' > $line
+			fi
+		done
+		
+	log "$filename" "** After: $(du -sh '$log_folder')"
+	log "$filename" "" $LOG_FILE
+}
+
+##
+# clean_unnecessary_packages_pacman()
+##
+clean_unnecessary_packages_pacman(){
+	log "$filename" "**** Using pacman to remove unnecessary packages"
+	
+	_packages=$(pacman -Qdtq)
+	
+	if [ -n $_packages ] ; then
+		(pacman -Rns $_packages 
+			&& log "$filename" "** $(echo $_packages | wc -l) packages removed($_packages)") 
+		||
+			(log "$filename" "** Fail to execute: pacman -Rns $_packages" && return 1)
+	else
+		log "$filename" "** No unnecessary packages found"
+	fi	
+	log "$filename" ""
+}
+
+##
+# clean_pacman_cache()
+##
+clean_pacman_cache(){
+	log "$filename" "**** Pacman Cache"
+    log "$filename" "** Before:"
+    log "$filename" "	- Size: $(du -sh /var/cache/pacman/pkg/)" 
+    log "$filename" "	- Number of files: $(ls /var/cache/pacman/pkg | wc -l)"
+
+    pacman -Sc --noconfirm >/dev/null 2>&1
+
+    if [ $? != 0 ]; then
+        log "$filename" "** Error to execute: pacman -Sc --noconfirm"
+        return 1
+    fi
+    
+    log "$filename" "** After:"
+    log "$filename" "	- Tamanho: $(du -sh /var/cache/pacman/pkg/)"
+    log "$filename" "	- Number of files: $(ls /var/cache/pacman/pkg | wc -l)"
+    log "$filename" ""
+}
+
+##
+# clean_backups_and_temp_files()
+# @param $1 Flag to be a interative process (1), or not (!=1).
+##
+clean_backups_and_temp_files(){
+	$INTERACTIVE=$1
+    log "$filename" "**** Backups and temp files:"
+
+    find / -iname "*~" -o -iname "*.bak" -o -iname "*.tmp" > /tmp/bkp_log
+    count=0
+
+    for i in $(seq 1 $(cat /tmp/bkp_log | wc -l )); do
+        line=$(cat /tmp/bkp_log | head -n $i | tail -n 1)
+        if [ $INTERACTIVE == 1 ]; then
+            if [ -f "$line" ]; then
+                question "Remover arquivo $line?"
+            else
+                question "Remover diretório $line?"
+            fi
+
+            if [ $question == 1 ]; then
+                rm -rf "$line"
+                count=$(expr $count + 1)
+            fi
+        else
+            rm -rf "$line"
+            count=$(expr $count + 1)
+        fi
+    done
+
+    rm /tmp/bkp_log
+
+    log "$filename" "** File removed: $count"
+}
