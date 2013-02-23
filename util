@@ -70,3 +70,4 @@ send_mail(){
 	content=$(cat $mail_content)
 	
 	echo $content | mailx -s "[TOOLBOX] Report" giovanebribeiro@gmail.com
+}

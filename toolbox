@@ -70,6 +70,7 @@ while getopts hvb:r: OPTION; do
 		v) version;;
 		b) backup ${OPTARG};;
 		r) restore ${OPTARG};;
+		*) usage ;;
 	esac
 done		
 
