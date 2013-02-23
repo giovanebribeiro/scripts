@@ -29,11 +29,10 @@ mail_content="/tmp/mail"
 # log()
 # @param $1 function name
 # @param $2 log message
-# @param $3 log file
 ##
 log(){
-	echo -e "$2 \n" >> $mail_content
-	echo -e "[$(date '+%d/%m/%Y %H:%M:%S')] $1: $2 \n" >> $LOG_FILE
+	echo -e "$2 " >> $mail_content
+	echo -e "[$(date '+%d/%m/%Y %H:%M:%S')] $1: $2 " >> $LOG_FILE
 }
 
 ##
@@ -61,13 +60,17 @@ question(){
     return 0
 }
 
+##
+# send_mail()
+# @param $1 The e-mail address to send
+##
 send_mail(){
+	addr=$1
 	if [ ! -f "/usr/bin/mailx" ] ; then
 		log "util" "You must have the heirloom-mailx package"
 		return 1
 	fi
 	
-	content=$(cat $mail_content)
-	
-	echo $content | mailx -s "[TOOLBOX] Report" giovanebribeiro@gmail.com
+	content=$(cat $mail_content)	
+	echo $content | mailx -s "[TOOLBOX] $HOSTNAME -  Status Report" $1
 }

@@ -66,11 +66,29 @@ usage(){
 ##
 while getopts hvb:r: OPTION; do
 	case "${OPTION}" in
-		h) usage;;
-		v) version;;
-		b) backup ${OPTARG};;
-		r) restore ${OPTARG};;
-		*) usage ;;
-	esac
+		h) 
+			usage
+		;;
+		v) 
+			version
+		;;
+		b) 
+			clean_logs
+			clean_pacman_cache
+			clean_backups_and_temp_files "0"
+			backup ${OPTARG}
+			send_mail giovanebribeiro@gmail.com
+		;;
+		r) 
+			restore ${OPTARG}
+		;;
+		c)
+			clean_logs
+			clean_pacman_cache
+			clean_backups_and_temp_files "0"
+		*) 
+			usage 
+		;;
+	esac	
 done		
 
