@@ -36,6 +36,7 @@ mail_content="/tmp/mail"
 # @param $2 log message
 ##
 log(){
+	echo -e "$2"
 	echo -e "$2 " >> $mail_content
 	echo -e "[$(date '+%d/%m/%Y %H:%M:%S')] $1: $2 " >> $LOG_FILE
 }
@@ -208,7 +209,7 @@ clean_unnecessary_packages_pacman(){
 	if [ -n $_packages ] ; then
 		pacman -Rns $_packages
 		teste=`echo $?`
-		if [ teste = "0" ] ; then
+		if [ $teste == "0" ] ; then
 			log "$filename" "** $(echo $_packages | wc -l) packages removed($_packages)\n"
 		else
 			log "$filename" "** Fail to execute: pacman -Rns $_packages\n"
@@ -299,7 +300,7 @@ fi
 ##
 # MAIN LOOP
 ##
-while getopts hvb:r: OPTION; do
+while getopts hvb:r:c OPTION; do
 	case "${OPTION}" in
 		h) 
 			usage
@@ -323,7 +324,7 @@ while getopts hvb:r: OPTION; do
 			clean_pacman_cache
 			clean_backups_and_temp_files "0"
 			send_mail giovanebribeiro@gmail.com
-			;;
+		;;
 		*) 
 			usage 
 		;;
