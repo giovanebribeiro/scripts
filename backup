@@ -35,7 +35,7 @@ backup(){
 	
 	# if the rsync is not installed, exit
 	if [ ! -f /usr/bin/rsync ] ; then
-		log "backup" "rsync must be installed on the system"
+		log "backup" "rsync must be installed on the system\n"
 		return 1
 	fi
 	
@@ -49,14 +49,14 @@ backup(){
 	fi
 
 	#sync
-	log "backup" "Starting the backup"
+	log "backup" "**** Backup:"
 	START=$(date +%s)
 	rsync $OPTS $SRC $BKP_FOLDER
 	rm -f $SNAP
 	ln -s $BKP_FOLDER $SNAP	
 	FINISH=$(date +%s)
 	
-	log "backup" "Backup of $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds"
+	log "backup" "** Backup of $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds\n"
 }
 
 ##

@@ -71,6 +71,7 @@ send_mail(){
 		return 1
 	fi
 	
-	content=$(cat $mail_content)	
-	echo $content | mailx -s "[TOOLBOX] $HOSTNAME -  Status Report" $1
+	echo mailx -s "[TOOLBOX] $HOSTNAME -  Status Report" $1 < $mail_content
+
+	rm $mail_content
 }

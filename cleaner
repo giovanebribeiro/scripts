@@ -45,7 +45,7 @@ clean_logs(){
 # clean_unnecessary_packages_pacman()
 ##
 clean_unnecessary_packages_pacman(){
-	log "$filename" "**** Using pacman to remove unnecessary packages"
+	log "$filename" "**** Using pacman to remove unnecessary packages\n"
 	
 	_packages=$(pacman -Qdtq)
 	
@@ -53,13 +53,13 @@ clean_unnecessary_packages_pacman(){
 		pacman -Rns $_packages
 		teste=`echo $?`
 		if [ teste = "0" ] ; then
-			log "$filename" "** $(echo $_packages | wc -l) packages removed($_packages)"
+			log "$filename" "** $(echo $_packages | wc -l) packages removed($_packages)\n"
 		else
-			log "$filename" "** Fail to execute: pacman -Rns $_packages"
+			log "$filename" "** Fail to execute: pacman -Rns $_packages\n"
 			return 1
 		fi
 	else
-		log "$filename" "** No unnecessary packages found"
+		log "$filename" "** No unnecessary packages found\n"
 	fi	
 }
 
@@ -73,7 +73,7 @@ clean_pacman_cache(){
     pacman -Sc --noconfirm >/dev/null 2>&1
 
     if [ ! $? == 0 ]; then
-        log "$filename" "** Error to execute: pacman -Sc --noconfirm"
+        log "$filename" "** Error to execute: pacman -Sc --noconfirm\n"
         return 1
     fi
 
@@ -118,5 +118,5 @@ clean_backups_and_temp_files(){
     rm /tmp/bkp_log
 
 	log "$filename" "**** Backups and temp files:"
-    log "$filename" "** Files removed: $temp"
+    log "$filename" "** Files removed: $temp\n"
 }
