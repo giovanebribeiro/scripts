@@ -86,6 +86,17 @@ backup_cotoco(){
 	send_mail giovanebribeiro@gmail.com
 }
 
+usage(){
+	echo "syntax: $0 OPTION"
+	echo "	OPTION"
+	echo "		--cotoco:		Backup for cotoco"
+}
+
+case "$1" in
+	--cotoco) backup_cotoco;;
+	*) usage;;
+esac
+
 
 
 #
