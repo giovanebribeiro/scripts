@@ -52,6 +52,15 @@ backup_cotoco(){
 		log "This function must be executed like root"
 		exit
 	fi
+
+	BKP_FOLDER="/mnt/hd/backup/cotoco"
+	BKP="$BKP_FOLDER/$DATETAG.img"
+
+	if [ ! -d $BKP_FOLDER ]
+	then
+		mkdir -p $BKP_FOLDER
+	fi
+
 	echo "Starting the backup..."
 	
 	log "*** Stopping the services..."
@@ -61,21 +70,25 @@ backup_cotoco(){
 	# - rtorrent
 	# - media server (if any)
 	# - samba 
-	# - ssh
+	systemctl stop sshd
 	
 	log "*** Create the image"
 	START=$(date +%s)
-	dd if=/dev/mmcblk0 > /mnt/hd/bkp_cotoco.img
-	
+	dd if=/dev/mmcblk0 > $BKP
+
+	cp $BKP $BKP_FOLDER/bkp_cotoco.img	
+
 	log "*** Send the image to dropbox"
-	# send the image to dropbox here.
+	/bin/sh `pwd`/dropbox_uploader.sh upload $BKP_FOLDER/bkp_cotoco.img /bkp_cotoco.img
 	
+	rm $BKP_FOLDER/bkp_cotoco.img
+
 	FINISH=$(date +%s)
 	echo -e "** Backup of cotoco in $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds\n" >> $mail_content
 	
 	log "*** Reloading the services..."
 	# Respect the order
-	# - ssh
+	systemctl start sshd
 	# - samba
 	# - media server (if any)
 	# - rtorrent
