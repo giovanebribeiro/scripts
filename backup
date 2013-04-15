@@ -23,7 +23,8 @@ mail_content="/tmp/backup.mail"
 DATETAG=$(date +%d-%m-%Y)
 
 log(){
-	mkdir -p "/var/log/scripts"	
+	mkdir -p "/var/log/scripts"
+	echo "$1"
 	echo -e "[$(date '+%d/%m/%Y %H:%M:%S')] $1 " >> /var/log/scripts/backup.log
 }
 
@@ -60,8 +61,6 @@ backup_cotoco(){
 	then
 		mkdir -p $BKP_FOLDER
 	fi
-
-	echo "Starting the backup..."
 	
 	log "*** Stopping the services..."
 	# Respect the order:
@@ -95,6 +94,7 @@ backup_cotoco(){
 	# - apache
 	# - no-ip
 	
+	log "*** Sending the report email..."
 	echo -e "See log for details.\n" >> $mail_content
 	send_mail giovanebribeiro@gmail.com
 }
