@@ -35,7 +35,7 @@ log(){
 send_mail(){
 	addr=$1
 	if [ ! -f "/usr/bin/mailx" ] ; then
-		log "util" "You must have the heirloom-mailx package"
+		log "You must have the heirloom-mailx package"
 		return 1
 	fi
 	
@@ -64,11 +64,11 @@ backup_cotoco(){
 	
 	log "*** Stopping the services..."
 	# Respect the order:
-	# - no-ip
+	systemctl stop noip2
 	# - apache
 	# - rtorrent
 	# - media server (if any)
-	# - samba 
+	systemctl stop smbd nmbd 
 	systemctl stop sshd
 	
 	log "*** Create the image"
@@ -88,11 +88,11 @@ backup_cotoco(){
 	log "*** Reloading the services..."
 	# Respect the order
 	systemctl start sshd
-	# - samba
+	systemctl start smbd nmbd
 	# - media server (if any)
 	# - rtorrent
 	# - apache
-	# - no-ip
+	systemctl start noip2
 	
 	log "*** Sending the report email..."
 	echo -e "See log for details.\n" >> $mail_content
