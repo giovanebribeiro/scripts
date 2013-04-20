@@ -65,8 +65,8 @@ backup_cotoco(){
 	log "*** Stopping the services..."
 	# Respect the order:
 	systemctl stop noip2
-	# - apache
-	# - rtorrent
+	systemctl stop httpd
+	systemctl stop rt@giovane
 	# - media server (if any)
 	systemctl stop smbd nmbd 
 	systemctl stop sshd
@@ -90,8 +90,8 @@ backup_cotoco(){
 	systemctl start sshd
 	systemctl start smbd nmbd
 	# - media server (if any)
-	# - rtorrent
-	# - apache
+	systemctl start rt@giovane
+	systemctl start httpd
 	systemctl start noip2
 	
 	log "*** Sending the report email..."
