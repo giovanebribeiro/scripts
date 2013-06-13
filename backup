@@ -61,15 +61,10 @@ backup_cotoco(){
 	then
 		mkdir -p $BKP_FOLDER
 	fi
-	
-	log "*** Stopping the services..."
-	# Respect the order:
-	systemctl stop noip2
-	systemctl stop httpd
-	systemctl stop rt@giovane
-	# - media server (if any)
-	systemctl stop smbd nmbd 
-	systemctl stop sshd
+
+	log "*** Putting this process with low priority..."
+	ionice -c 3 -p $$
+	renice +12 -p $$
 	
 	log "*** Create the image"
 	START=$(date +%s)
@@ -84,15 +79,6 @@ backup_cotoco(){
 
 	FINISH=$(date +%s)
 	echo -e "** Backup of cotoco in $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds\n" >> $mail_content
-	
-	log "*** Reloading the services..."
-	# Respect the order
-	systemctl start sshd
-	systemctl start smbd nmbd
-	# - media server (if any)
-	systemctl start rt@giovane
-	systemctl start httpd
-	systemctl start noip2
 	
 	log "*** Sending the report email..."
 	echo -e "See log for details.\n" >> $mail_content
