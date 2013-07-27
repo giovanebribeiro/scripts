@@ -1,0 +1,42 @@
+#!/bin/bash
+
+backlight_loc="/sys/class/backlight"
+acpi_loc="$backlight_loc/acpi_video0"
+max_brightness_loc="$acpi_loc/max_brightness"
+brightness_loc="$acpi_loc/brightness"
+
+if [ -r $max_brightness_loc ] ; then
+	max_brightness=`cat $acpi_loc/max_brightness`
+else
+	echo "Wrong permissions..."
+	exit 0
+fi
+
+if [ -w $brightness_loc -a -r $brightness_loc ] ; then
+	brightness=`cat $acpi_loc/brightness`
+else
+	echo "Wrong permissions..."
+	exit 0
+fi
+
+while getopts ids OP; do
+	case "${OP}" in
+		i) 
+			brightness=`expr $brightness + 1`
+			if [ "$brightness" -le "$max_brightness" ] ; then
+				echo $brightness > $brightness_loc
+		   	fi
+		;;
+		d) 
+			brightness=`expr $brightness - 1`
+			if [ "$brightness" -ge 0 ] ; then
+				echo $brightness > $brightness_loc
+			fi
+		;;
+		s) 
+			chmod 644 $max_brightness_loc
+			chmod 606 $brightness_loc
+		;;		
+		*) echo "desconhec" ;;
+	esac
+done
