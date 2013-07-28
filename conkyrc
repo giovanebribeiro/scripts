@@ -36,8 +36,8 @@ use_xft yes
 xftfont DejaVu Sans Mono:size=9
 gap_x 5
 gap_y 1
-maximum_width 400
-minimum_size 400 10
+maximum_width 340
+minimum_size 340 10
 net_avg_samples 2
 no_buffers yes
 out_to_console no
@@ -61,7 +61,7 @@ color1 ffff00
 # bege
 color2 ffc613
 # bege claro
-color3 edc951
+color3 000000
 # amarelo claro
 color4 eac117
 # laranja
@@ -70,76 +70,57 @@ color5 ffa900
 color6 0000ff
 # ciano
 color7 40e0d1
-# azul claro
-color8 00a0b0
+# vermelho
+color8 ff0000
 # azul petroleo
 color9 003b6f
 
 TEXT
-${color0}${time %a, %d %b %Y, %l:%M:%S} ${color2} Uptime: ${color5} $uptime
-${color8}-------------------------------------------------------------------------------------------------------------
+${color0}${time %a, %d %b %Y, %H:%M:%S} ${color2} Uptime: ${color5} $uptime
+${color7}---------------------------------------------------------------------
 ${color2}Linux Kernel: ${color0}$kernel on $machine
 ${color2}CPU Details: ${color0}$machine, ${freq cpu0}MHz
-${color2}CPU1: ${color5}${cpubar cpu1 10,150} ${alignr}${color2}CPU2: ${color5}${cpubar cpu2 10,150}
-${voffset -14}${color0}${alignr 246}${cpu cpu1}%${alignr 62}${cpu cpu2}%
-${color2}CPU3: ${color5}${cpubar cpu3 10,150} ${alignr}${color2}CPU4: ${color5}${cpubar cpu4 10,150}
-${voffset -14}${color0}${alignr 240}${cpu cpu3}%${alignr 55}${cpu cpu4}% 
+${color2}CPU1: ${color5}${cpubar cpu1 10,120} ${alignr}${color2}CPU2: ${color5}${cpubar cpu2 10,120}
+${voffset -14}${color0}${alignr 215}${cpu cpu1}%${alignr 50}${cpu cpu2}%
+${color2}CPU3: ${color5}${cpubar cpu3 10,120} ${alignr}${color2}CPU4: ${color5}${cpubar cpu4 10,120}
+${voffset -14}${color0}${alignr 209}${cpu cpu3}%${alignr 44}${cpu cpu4}% 
 ${color2}RAM Used: ${color0}$mem ($memperc%)${alignr}${color2}RAM Available: ${color0}$memfree
 ${color2}SWAP Used: ${color0}$swap ($swapperc%)${alignr}${color2}SWAP Available: ${color0}$swapfree
-${color7}${diskiograph 32,400 0000ff 00a0b0 750 -t -l}
-${voffset -30}${alignr 180}${color0}Disk I/O
+${color3}${cpugraph cpu0 32,340 000000 40e0d1}
+${voffset -30}${alignc}${color0}CPU Usage
 
 ${color9}Battery $hr
 ${color2}Status and percent remaining: ${alignr}${color0}$battery
-${color2}Time: ${alignr}${color0}$battery_time
-${color9}Network ${color0}($hostname) ${color9}$hr
+${color2}Time Remaining: ${alignr}${color0}$battery_time
+${color9}Network (${nodename}) ${color9}$hr
 ${color0}wlp2s0: ${color2}Down: ${color1}${downspeed wlp2s0}/s ${alignr 50}${color2}Up: ${color1}${upspeed wlp2s0}/s
-${alignr 75}${color7}${downspeedgraph wlp2s0 32,145 104E8B 0077ff}${alignr 25}${upspeedgraph wlp2s0 32,145 104E8B 0077ff}
+${alignr 55}${color3}${downspeedgraph wlp2s0 32,120 000000 40e0d1}${alignr 30}${upspeedgraph wlp2s0 32,120 000000 40e0d1}
 ${color0}enp4s0: ${color2}Down: ${color1}${downspeed enp4s0}/s ${alignr 70}${color2}Up: ${color1}${upspeed enp4s0}/s
-${alignr 75}${color7}${downspeedgraph enp4s0 32,145 104E8B 0077ff}${alignr 25}${upspeedgraph enp4s0 32,145 104E8B 0077ff}
-
-${color #0077ff}Net Down:$color ${downspeed eth0} k/s      ${color #0077ff}Net Up:$color ${upspeed eth0} k/s
-${color #0077ff}${downspeedgraph eth0 32,155 104E8B 0077ff} $alignr${color #0077ff}${upspeedgraph eth0 32,155 104E8B 0077ff}
-${color #0077ff}File systems:
- ${color #0077ff}/          $color${fs_used /}/${fs_size /}${alignr}${color #0077ff}${fs_bar 5,120 /}
- ${color #0077ff}/home      $color${fs_used /home}/${fs_size /home}${alignr}${color #0077ff}${fs_bar 5,120 /home}
- ${color #0077ff}/opt       $color${fs_used /opt}/${fs_size /opt}${alignr}${color #0077ff}${fs_bar 5,120 /opt}
- ${color #0077ff}/usr/local $color${fs_used /usr/local}/${fs_size /usr/local}${alignr}${color #0077ff}${fs_bar 5,120 /usr/local}
- ${color #0077ff}/var       $color${fs_used /var}/${fs_size /var}${alignr}${color #0077ff}${fs_bar 5,120 /var}
- ${color #0077ff}/share1    $color${fs_used /share1}/${fs_size /share1}${alignr}${color #0077ff}${fs_bar 5,120 /share1}
-
-${color #0077ff}Top Processes:
-${color #0077ff}Name              PID     CPU%   MEM%
-$color ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
-$color ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
-$color ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
-${color #0077ff}Mem usage
-$color ${top_mem name 1} ${top_mem pid 1} ${top_mem cpu 1} ${top_mem mem 1}
-$color ${top_mem name 2} ${top_mem pid 2} ${top_mem cpu 2} ${top_mem mem 2}
-$color ${top_mem name 3} ${top_mem pid 3} ${top_mem cpu 3} ${top_mem mem 3}
- 
-${color #0077ff}Port(s)${alignr}#Connections
-$color Inbound: ${tcp_portmon 1 32767 count}  Outbound: ${tcp_portmon 32768 61000 count}${alignr}ALL: ${tcp_portmon 1 65535 count}
-${color #0077ff}Inbound Connection ${alignr} Local Service/Port$color
- ${tcp_portmon 1 32767 rhost 0} ${alignr} ${tcp_portmon 1 32767 lservice 0}
- ${tcp_portmon 1 32767 rhost 1} ${alignr} ${tcp_portmon 1 32767 lservice 1}
- ${tcp_portmon 1 32767 rhost 2} ${alignr} ${tcp_portmon 1 32767 lservice 2}
- ${tcp_portmon 1 32767 rhost 3} ${alignr} ${tcp_portmon 1 32767 lservice 3}
- ${tcp_portmon 1 32767 rhost 4} ${alignr} ${tcp_portmon 1 32767 lservice 4}
-${color #0077ff}Outbound Connection ${alignr} Remote Service/Port$color
- ${tcp_portmon 32768 61000 rhost 0} ${alignr} ${tcp_portmon 32768 61000 rservice 0}
- ${tcp_portmon 32768 61000 rhost 1} ${alignr} ${tcp_portmon 32768 61000 rservice 1}
- ${tcp_portmon 32768 61000 rhost 2} ${alignr} ${tcp_portmon 32768 61000 rservice 2}
- ${tcp_portmon 32768 61000 rhost 3} ${alignr} ${tcp_portmon 32768 61000 rservice 3}
- ${tcp_portmon 32768 61000 rhost 4} ${alignr} ${tcp_portmon 32768 61000 rservice 4}
-
-$color ${audacious_title}
- ${color #0077ff}${audacious_bar} $color
- ${texeci 60 imap_status.sh inbox UNSEEN} ${tab 15} Inbox
- ${texeci 60 imap_status.sh conky-commits UNSEEN} ${tab 15} conky-commits
- ${texeci 60 imap_status.sh conky-development UNSEEN} ${tab 15} conky-development
- ${texeci 60 imap_status.sh gtk-app-devel-list UNSEEN} ${tab 15} gtk-app-devel-list
- ${texeci 60 imap_status.sh gtk-doc-list UNSEEN} ${tab 15} gtk-doc-list
- ${texeci 60 imap_status.sh libdexter-commits UNSEEN} ${tab 15} libdexter-commits
- ${texeci 60 imap_status.sh libdexter-development UNSEEN} ${tab 15} libdexter-development
-
+${alignr 55}${color3}${downspeedgraph enp4s0 32,120 000000 40e0d1}${alignr 30}${upspeedgraph enp4s0 32,120 oooooo 40e0d1}
+${color9}File systems $hr
+${color7}/  ${alignr 20}${color8}${fs_used /}/${color0}${fs_size /}${alignr}${color9}${fs_bar 10,150 /}
+${voffset -14}${alignr 60}${color2}$fs_used_perc%
+${color7}/dados  ${alignr 20}${color8}${fs_used /home/giovane/dados}/${color0}${fs_size /home/giovane/dados}${alignr}${color9}${fs_bar 10,150 /home/giovane/dados}
+${voffset -14}${alignr 60}${color2}${fs_used_perc /home/giovane/dados}%
+${color9}Disk I/O $hr
+${color2}dev${alignr 180}write${alignr 135}read${alignr 110}temp
+${color7}sda${alignr 80}${color1}${diskio_write /dev/sda}${color0}${alignr 50}${diskio_write /dev/sda}${alignr 30}${color1}${hddtemp}°C${alignr}${color6}${diskiograph /dev/sda 12,80 104e8b 0077ff 750 -t -l}
+${color9}Processes: ${color0}$processes ${color9}Running: ${color8}$running_processes
+${alignc}${color2}(top 5 sorted by CPU usage)
+${color2}Name${alignr 135}PID${alignr 60}CPU%${alignr}MEM%
+$color7${top name 1}${top pid 1}${alignr 50}${top cpu 1}${alignr}${top mem 1}
+$color0${top name 2}${top pid 2}${alignr 50}${top cpu 2}${alignr}${top mem 2}
+$color0${top name 3}${top pid 3}${alignr 50}${top cpu 3}${alignr}${top mem 3}
+$color0${top name 4}${top pid 4}${alignr 50}${top cpu 4}${alignr}${top mem 4}
+$color0${top name 5}${top pid 5}${alignr 50}${top cpu 5}${alignr}${top mem 5}
+${alignc}${color2}(top 3 sorted by MEM usage)
+${color2}Name${alignr 135}PID${alignr 60}CPU%${alignr}MEM%
+$color7${top_mem name 1}${top_mem pid 1}${alignr 50}${top_mem cpu 1}${alignr}${top_mem mem 1}
+$color0${top_mem name 2}${top_mem pid 2}${alignr 50}${top_mem cpu 2}${alignr}${top_mem mem 2}
+$color0${top_mem name 3}${top_mem pid 3}${alignr 50}${top_mem cpu 3}${alignr}${top_mem mem 3}
+${color9}Weather $hr 
+$hr
+${color2}Arch Linux News: ${color0}${scroll 30 5 ${rss https://www.archlinux.org/feeds/news/ 1 item_titles 5 5}}
+${color2}BBC World: ${color0}${scroll 40 5 ${rss http://feeds.bbci.co.uk/news/world/rss.xml 1 item_titles 5 5}}
+${color2}Omelete: ${color0}${scroll 40 5 ${rss http://www.omelete.com.br/RSS/news.xml 1 item_titles 5 5}}
+${color9}$hr
