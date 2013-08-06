@@ -1,0 +1,62 @@
+#!/bin/sh
+
+##
+# file: dualscreen
+# Author: Giovane Boaviagem
+# Script based on script present in https://wiki.archlinux.org/index.php/Xrandr
+##
+
+# get info from xrandr
+xStatus=`xrandr`
+# Show the connected outputs
+connectedOutputs=$(echo "$xStatus" | grep " connected"  | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+# Show the active outputs
+activeOutput=$(echo "$xStatus" | grep -e " connected [^(]" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+# Show the # of outputs connected:
+connected=$(echo $connectedOutputs | wc -w)
+
+# variables
+execute="xrandr "
+default="xrandr "
+i=1
+switch=0
+
+for display in $connectedOutputs
+do
+	#default config
+	if [ $i -eq 1 ]
+	then
+		default=$default"--output $display --auto "
+	else
+		default=$default"--output $display --off "
+	fi
+
+	#build "switch" config
+	case $switch in
+		0) execute=$execute"--output $display --off "	
+			;;
+		1) execute=$execute"--output $display --auto "
+			switch=1
+			;;
+		*) ;;
+	esac
+	
+	#check whether the next output should be switched on
+	if [ $display = $activeOutput ]
+	then
+		switch=1		
+	fi
+	
+	i=$(( $i + 1 ))
+done
+
+# execute the command
+if [ -z "$(echo $execute | grep "auto")" ]
+then
+	echo "Command: $default"
+	`$default`
+else
+	echo "Command: $execute"
+	`$execute`
+fi
+echo -e "\n$(xrandr)"
