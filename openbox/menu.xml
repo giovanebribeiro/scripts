@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+	<menu id="root-menu" label="Anduril">
+		<menu id="app-menu" label="Application">
+			<!--
+		-->
+			<menu id="media-menu" label="Media">
+				<item label="DigiKam Photo Management">
+					<action name="Execute">
+						<execute>digikam</execute>
+					</action>
+				</item>
+				<item label="Banshee Music Player">
+					<action name="Execute">
+						<execute>banshee</execute>
+					</action>
+				</item>
+				<item label="VLC Media Player">
+					<action name="Execute">
+						<execute>vlc</execute>
+					</action>
+				</item>
+			</menu>
+			<menu id="app-menu-383856" label="Development">
+				<item label="Eclipse IDE">
+					<action name="Execute">
+						<execute>eclipse</execute>
+					</action>
+				</item>
+			</menu>
+			<menu id="apps-communication-menu" label="Communication">
+				<!--item label="GVim">
+				<action name="Execute">
+					<command>gvim</command>
+					<startupnotify>
+						<enabled>yes</enabled>
+						<wmclass>GVim</wmclass>
+					</startupnotify>
+				</action>
+			</item-->
+				<item label="Skype">
+					<action name="Execute">
+						<execute>skype</execute>
+					</action>
+				</item>
+				<item label="Choqok Twitter Client">
+					<action name="Execute">
+						<execute>choqok</execute>
+					</action>
+				</item>
+				<item label="Pidgin Instant Messaging">
+					<action name="Execute">
+						<execute>pidgin</execute>
+					</action>
+				</item>
+				<item label="Thunderbird Email Client">
+					<action name="Execute">
+						<execute>thunderbird</execute>
+					</action>
+				</item>
+			</menu>
+			<menu id="prod-menu" label="Produtivity">
+				<item label="Nixnote">
+					<action name="Execute">
+						<execute>nixnote</execute>
+					</action>
+				</item>
+				<item label="LibreOffice">
+					<action name="Execute">
+						<execute>libreoffice</execute>
+					</action>
+				</item>
+				<item label="Truecrypt Volume Encripter">
+					<action name="Execute">
+						<execute>truecrypt</execute>
+					</action>
+				</item>
+				<item label="Hamster Time Tracker">
+					<action name="Execute">
+						<execute>hamster-time-tracker</execute>
+					</action>
+				</item>
+				<item label="Okular PDF Viewer">
+					<action name="Execute">
+						<execute>okular</execute>
+					</action>
+				</item>
+				<item label="Chromium Web Browser">
+					<action name="Execute">
+						<execute>chromium</execute>
+					</action>
+				</item>
+			</menu>
+			<!--
+		-->
+			<menu id="apps-utilities-menu" label="Utilities">
+				<!--item label="Firefox">
+				<action name="Execute">
+					<command>firefox</command>
+					<startupnotify>
+						<enabled>yes</enabled>
+						<wmclass>Firefox</wmclass>
+					</startupnotify>
+				</action>
+			</item-->
+				<item label="Virtualbox">
+					<action name="Execute">
+						<execute>virtualbox</execute>
+					</action>
+				</item>
+				<item label="Truecrypt">
+					<action name="Execute">
+						<execute>truecrypt</execute>
+					</action>
+				</item>
+				<item label="PCMan File Manager">
+					<action name="Execute">
+						<execute>dbus-launch pcmanfm</execute>
+					</action>
+				</item>
+				<item label="Kate Text Editor">
+					<action name="Execute">
+						<execute>kate</execute>
+					</action>
+				</item>
+				<item label="Shutter Screen Capture">
+					<action name="Execute">
+						<execute>command</execute>
+					</action>
+				</item>
+				<item label="Clonezilla Disc Cloning">
+					<action name="Execute">
+						<execute>gksu terminator -e clonezilla</execute>
+					</action>
+				</item>
+				<item label="File Roller ">
+					<action name="Execute">
+						<execute>file-roller</execute>
+					</action>
+				</item>
+				<item label="Deluge BitTorrent Client">
+					<action name="Execute">
+						<execute>deluge</execute>
+					</action>
+				</item>
+				<item label="Terminator Terminal Emulator">
+					<action name="Execute">
+						<command>terminator</command>
+						<startupnotify>
+							<enabled>yes</enabled>
+						</startupnotify>
+					</action>
+				</item>
+			</menu>
+		</menu>
+		<!--
+	    -->
+		<!--
+	    -->
+		<menu id="system-menu" label="System">
+			<item label="Openbox Configuration Manager">
+				<action name="Execute">
+					<command>obconf</command>
+					<startupnotify>
+						<enabled>yes</enabled>
+					</startupnotify>
+				</action>
+			</item>
+			<item label="Openbox Menu Editor">
+				<action name="Execute">
+					<command>obmenu</command>
+					<startupnotify>
+						<enabled>yes</enabled>
+					</startupnotify>
+				</action>
+			</item>
+			<item label="Openbox Key Editor">
+				<action name="Execute">
+					<command>obkey</command>
+					<startupnotify>
+						<enabled>yes</enabled>
+					</startupnotify>
+				</action>
+			</item>
+			<item label="Arandr Display manager">
+				<action name="Execute">
+					<execute>arandr</execute>
+				</action>
+			</item>
+			<item label="GParted Partition Manager">
+				<action name="Execute">
+					<execute>gksu gparted</execute>
+				</action>
+			</item>
+			<item label="XScreensaver Screen Saver">
+				<action name="Execute">
+					<execute>xscreensaver-command -prefs</execute>
+				</action>
+			</item>
+			<item label="Nitrogen Background Manager">
+				<action name="Execute">
+					<command>nitrogen</command>
+					<startupnotify>
+						<enabled>yes</enabled>
+					</startupnotify>
+				</action>
+			</item>
+		</menu>
+		<!--
+	    -->
+		<separator/>
+		<item label="...">
+			<action name="Execute">
+				<command>obshutdown</command>
+			</action>
+		</item>
+	</menu>
+</openbox_menu>
