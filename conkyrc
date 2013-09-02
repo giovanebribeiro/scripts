@@ -53,6 +53,7 @@ uppercase no
 use_spacer none
 show_graph_scale no
 show_graph_range no
+text_buffer_size 1024
 
 # branco
 color0 ffffff
@@ -118,8 +119,9 @@ ${color2}Name${alignr 135}PID${alignr 60}CPU%${alignr}MEM%
 $color7${top_mem name 1}${top_mem pid 1}${alignr 50}${top_mem cpu 1}${alignr}${top_mem mem 1}
 $color0${top_mem name 2}${top_mem pid 2}${alignr 50}${top_mem cpu 2}${alignr}${top_mem mem 2}
 $color0${top_mem name 3}${top_mem pid 3}${alignr 50}${top_mem cpu 3}${alignr}${top_mem mem 3}
-${color9}Weather $hr 
-$hr
+${color9}TODO $hr 
+${color0}${execpi 10 /home/giovane/dados/Dropbox/todo.txt/todo.sh -p ls}
+${color9}$hr
 ${color2}Arch Linux News: ${color0}${scroll 30 5 ${rss https://www.archlinux.org/feeds/news/ 1 item_titles 5 5}}
 ${color2}BBC World: ${color0}${scroll 40 5 ${rss http://feeds.bbci.co.uk/news/world/rss.xml 1 item_titles 5 5}}
 ${color2}Omelete: ${color0}${scroll 40 5 ${rss http://www.omelete.com.br/RSS/news.xml 1 item_titles 5 5}}

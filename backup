@@ -5,100 +5,115 @@
 # Author: Giovane Boaviagem <giovanebribeiro@gmail.com>
 # Since: 21/02/2013
 #
-#  This file is free software: you may copy, redistribute and/or modify it  
-#  under the terms of the GNU General Public License as published by the  
-#  Free Software Foundation, either version 2 of the License, or (at your  
-#  option) any later version.  
-#  
-#  This file is distributed in the hope that it will be useful, but  
-#  WITHOUT ANY WARRANTY; without even the implied warranty of  
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU  
-#  General Public License for more details.  
-#  
-#  You should have received a copy of the GNU General Public License  
-#  along with this program.  If not, see <http://www.gnu.org/licenses/>.  
+# * This file is free software: you may copy, redistribute and/or modify it  
+# * under the terms of the GNU General Public License as published by the  
+# * Free Software Foundation, either version 2 of the License, or (at your  
+# * option) any later version.  
+# * 
+# * This file is distributed in the hope that it will be useful, but  
+# * WITHOUT ANY WARRANTY; without even the implied warranty of  
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU  
+# * General Public License for more details.  
+# * 
+# * You should have received a copy of the GNU General Public License  
+# * along with this program.  If not, see <http://www.gnu.org/licenses/>.  
+# 
+# Usage:
+#	backup <config_number_id>
 ##
 
+##
+# CONFIG VARIABLES
+# The set of array elements defines a possible configuration. 
+# The arrays are defined below:
+##
+src[0]=/var/log
+dst[0]=/mnt/hd/backup
+file[0]=logs.tar.gz
+type[0]=tar
+send_mail[0]=true
+mail_addr[0]=giovanebribeiro@gmail.com
+
+
+## 
+# DO NOT EDIT BELOW THIS LINE!!
+##
 mail_content="/tmp/backup.mail"
 DATETAG=$(date +%d-%m-%Y)
+LOGTAG="BACKUP_GIOZ"
 
 log(){
-	mkdir -p "/var/log/scripts"
-	echo "$1"
-	echo -e "[$(date '+%d/%m/%Y %H:%M:%S')] $1 " >> /var/log/scripts/backup.log
+	logger -t $LOGTAG -s "*** $1"
+	echo "$1" >> $mail_content 
 }
 
-##
-# send_mail()
-# @param $1 The e-mail address to send
-##
-send_mail(){
-	addr=$1
+sending_mail(){
 	if [ ! -f "/usr/bin/mailx" ] ; then
-		log "You must have the heirloom-mailx package"
+		log "You must have the heirloom-mailx package!!"
 		return 1
 	fi
-	
-	mailx -s "[BACKUP] $HOSTNAME -  Status Report" $1 < $mail_content
 
+	mailx  -s "[BACKUP] $HOSTNAME - Status report" $1 < $mail_content
 	rm $mail_content
 }
 
-##
-# backup_cotoco()
-##
-backup_cotoco(){
-	if [ ! "$(whoami)" == "root" ] ; then
-		echo "This function must be executed like root"
-		log "This function must be executed like root"
-		exit
-	fi
 
-	BKP_FOLDER="/mnt/hd/backup/cotoco"
-	BKP="$BKP_FOLDER/$DATETAG.img"
+if [ ! "$(whoami)" == "root" ] ; then
+	logger -s -t $LOGTAG "This script must be executed like root"
+	exit
+fi
 
-	if [ ! -d $BKP_FOLDER ]
-	then
-		mkdir -p $BKP_FOLDER
-	fi
+CONF=$1
+bkp_dest=${dst[$CONF]}
 
-	log "*** Putting this process with low priority..."
-	ionice -c 3 -p $$
-	renice +12 -p $$
-	
-	log "*** Create the image"
-	START=$(date +%s)
-	dd if=/dev/mmcblk0 > $BKP
+log "Creating the parent folder for backup file..."
+if [ ! -d $bkp_dest ] ; then
+	mkdir -p $bkp_dest
+fi
+log "Success."
 
-	cp $BKP $BKP_FOLDER/bkp_cotoco.img	
+log "Putting this process with low priority..."
+ionice -c 3 -p $$
+renice +12 -p $$
+log "Success."
 
-	log "*** Send the image to dropbox"
-	/bin/sh `pwd`/dropbox_uploader.sh upload $BKP_FOLDER/bkp_cotoco.img /bkp_cotoco.img
-	
-	rm $BKP_FOLDER/bkp_cotoco.img
-
-	FINISH=$(date +%s)
-	echo -e "** Backup of cotoco in $DATETAG: $(( ($FINISH-$START) / 60  )) minutes, $((  ($FINISH-$START) % 60 )) seconds\n" >> $mail_content
-	
-	log "*** Sending the report email..."
-	echo -e "See log for details.\n" >> $mail_content
-	send_mail giovanebribeiro@gmail.com
-}
-
-usage(){
-	echo "syntax: $0 OPTION"
-	echo "	OPTION"
-	echo "		--cotoco:		Backup for cotoco"
-}
-
-case "$1" in
-	--cotoco) backup_cotoco;;
-	*) usage;;
+log "Creating the backup file..."
+bkp_type=${type[$CONF]}
+bkp_src=${src[$CONF]}
+bkp_filename=${file[$CONF]}
+final_filename=$bkp_dest/$DATETAG-$bkp_filename
+log "Final filename: $final_filename"
+START=$(date +%s)
+case "$bkp_type" in
+	tar)
+		tar czf $final_filename $bkp_src/
+	;;
+	img)
+		dd if=$bkp_src > $final_filename
+	;;
+	*)
+		log "Unknown option for backup type!!" 
+	;;
 esac
+FINISH=$(date +%s)
+log "Success."
+
+log "Backup completed in $(( ($FINISH-$START) / 60 )) minutes, $(( ($FINISH-START) % 60 )) seconds!"
+
+$bkp_send_mail=${send_mail[$CONF]}
+if [ "$bkp_send_mail" == "true" ] ; then
+	log "Sending the report e-mail..."
+	mail_addr=${mail_addr[$CONF]}
+	sending_mail $mail_addr
+	log "Success"
+elif [ "$bkp_send_mail" == "false" ] ; then
+	log "Send e-mail option: false."
+else
+	log "Unknown option!! to send e-mail"
+fi
 
 
 
-#
 # backup_time_machine()
 # @param $1: Parent folder for backup
 #
