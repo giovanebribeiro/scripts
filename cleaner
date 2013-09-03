@@ -19,9 +19,10 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.  
 ##
 
+LOGTAG="CLEANER_GIOZ"
+
 log(){
-	mkdir -p "/var/log/scripts"	
-	echo -e "[$(date '+%d/%m/%Y %H:%M:%S')] $1 " >> /var/log/scripts/cleaner.log
+	logger -t $LOGTAG -s "$1"
 }
 
 ##
@@ -53,7 +54,7 @@ question(){
 # clean_logs()
 ##
 clean_logs(){
-	echo "*** Cleaning the /var/log folder..."
+	log "*** Cleaning the /var/log folder..."
 	logs_folder="/var/log"
 	before=$(du -sh $logs_folder)
 	
@@ -73,7 +74,6 @@ clean_logs(){
 # clean_unnecessary_packages_pacman()
 ##
 clean_unnecessary_packages_pacman(){
-	echo "*** Removing the unnecessary packages with pacman..."
 	log "**** Using pacman to remove unnecessary packages\n"
 	
 	_packages=$(pacman -Qdtq)
@@ -96,7 +96,7 @@ clean_unnecessary_packages_pacman(){
 # clean_pacman_cache()
 ##
 clean_pacman_cache(){
-	echo "*** Cleaning the pacman's cache..."
+	log "*** Cleaning the pacman's cache..."
 	size_before=$(du -sh /var/cache/pacman/pkg/)
 	number_files_before=$(ls /var/cache/pacman/pkg | wc -l)
 
@@ -121,7 +121,7 @@ clean_pacman_cache(){
 # @param $1 Flag to be a interative process (1), or not (!=1).
 ##
 clean_backups_and_temp_files(){
-	echo "*** Cleaning the backups and temp files..."
+	log "*** Cleaning the backups and temp files..."
 	INTERACTIVE=$1
 
     find / -iname "*~" -o -iname "*.bak" -o -iname "*.tmp" > /tmp/bkp_log
@@ -155,12 +155,13 @@ clean_backups_and_temp_files(){
 usage(){
 	echo "syntax: $0 OPTION"
 	echo "	OPTION"
-	echo "		--simple:		Executes all procedures, except the last one"
-	echo "		--deep:			Executes all procedures above"
 	echo "		--tmp_files:		Clean all the .bkp and temp files"
 	echo "		--logs:			Clean the files of /var/log folder"
 	echo "		--cache_pacman:		Clean the pacman's cache"
 	echo "		--pkg_old_pacman:	Clean the unnecessary packages of pacman"
+	echo "		--simple:		Executes all procedures, except the last one"
+	echo "		--deep:			Executes all procedures above"
+
 	echo ""
 }
 
