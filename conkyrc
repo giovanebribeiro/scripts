@@ -36,7 +36,7 @@ use_xft yes
 xftfont DejaVu Sans Mono:size=9
 gap_x 5
 gap_y 1
-maximum_width 340
+maximum_width 580 
 minimum_size 340 10
 net_avg_samples 2
 no_buffers yes
@@ -81,13 +81,13 @@ ${color0}${time %a, %d %b %Y, %H:%M:%S} ${color2} Uptime: ${color5} $uptime
 ${color7}---------------------------------------------------------------------
 ${color2}Linux Kernel: ${color0}$kernel on $machine
 ${color2}CPU Details: ${color0}$machine, ${freq cpu0}MHz
-${color2}CPU1: ${color5}${cpubar cpu1 10,120} ${alignr}${color2}CPU2: ${color5}${cpubar cpu2 10,120}
-${voffset -14}${color0}${alignr 215}${cpu cpu1}%${alignr 50}${cpu cpu2}%
-${color2}CPU3: ${color5}${cpubar cpu3 10,120} ${alignr}${color2}CPU4: ${color5}${cpubar cpu4 10,120}
-${voffset -14}${color0}${alignr 209}${cpu cpu3}%${alignr 44}${cpu cpu4}% 
+${color2}CPU1: ${color5}${cpubar cpu1 10,240} ${alignr}${color2}CPU2: ${color5}${cpubar cpu2 10,240}
+${voffset -14}${color0}${alignr 380}${cpu cpu1}%${alignr 100}${cpu cpu2}%
+${color2}CPU3: ${color5}${cpubar cpu3 10,240} ${alignr}${color2}CPU4: ${color5}${cpubar cpu4 10,240}
+${voffset -14}${color0}${alignr 375}${cpu cpu3}%${alignr 95}${cpu cpu4}% 
 ${color2}RAM Used: ${color0}$mem ($memperc%)${alignr}${color2}RAM Available: ${color0}$memfree
 ${color2}SWAP Used: ${color0}$swap ($swapperc%)${alignr}${color2}SWAP Available: ${color0}$swapfree
-${color3}${cpugraph cpu0 32,340 000000 40e0d1}
+${color3}${cpugraph cpu0 32,560 000000 40e0d1}
 ${voffset -30}${alignc}${color0}CPU Usage
 
 ${color9}Battery $hr
