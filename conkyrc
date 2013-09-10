@@ -77,8 +77,8 @@ color8 ff0000
 color9 003b6f
 
 TEXT
-${color0}${time %a, %d %b %Y, %H:%M:%S} ${color2} Uptime: ${color5} $uptime
-${color7}---------------------------------------------------------------------
+${color0}${time %a, %d %b %Y, %H:%M:%S} ${alignr}${color2} Uptime: ${color5} $uptime
+${color7}----------------------------------------------------------------------------------------------------
 ${color2}Linux Kernel: ${color0}$kernel on $machine
 ${color2}CPU Details: ${color0}$machine, ${freq cpu0}MHz
 ${color2}CPU1: ${color5}${cpubar cpu1 10,240} ${alignr}${color2}CPU2: ${color5}${cpubar cpu2 10,240}
