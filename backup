@@ -26,14 +26,25 @@
 # CONFIG VARIABLES
 # The set of array elements defines a possible configuration. 
 # The arrays are defined below:
+# 
+# src = input folder/device
+# dst = Destiny FOLDER
+# file = final file to store the backup
+# type = type of the backup file (possible values: tar, img)
+# send_mail = flag to send an e-mail at the end of process (possible values: 1(send mail)/0(don't send mail))
+# mail_addr = e-mail address to send the final message
 ##
 src[0]=/var/log
-dst[0]=/mnt/hd/backup
+dst[0]=/home/giovane/hd/backup
 file[0]=logs.tar.gz
 type[0]=tar
-send_mail[0]=true
-mail_addr[0]=giovanebribeiro@gmail.com
+mail_addr[0]=
 
+src[1]=/dev/mmcblk0
+dst[1]=/home/giovane/hd/backup
+file[1]=bkp_cotoco.img
+type[1]=img
+mail_addr[1]=
 
 ## 
 # DO NOT EDIT BELOW THIS LINE!!
@@ -100,17 +111,12 @@ log "Success."
 
 log "Backup completed in $(( ($FINISH-$START) / 60 )) minutes, $(( ($FINISH-START) % 60 )) seconds!"
 
-$bkp_send_mail=${send_mail[$CONF]}
-if [ "$bkp_send_mail" == "true" ] ; then
-	log "Sending the report e-mail..."
-	mail_addr=${mail_addr[$CONF]}
+log "Sending the report e-mail..."
+bkp_mail_addr=${mail_addr[$CONF]}
+if [ ! "$bkp_mail_addr" == "" ] ; then
 	sending_mail $mail_addr
-	log "Success"
-elif [ "$bkp_send_mail" == "false" ] ; then
-	log "Send e-mail option: false."
-else
-	log "Unknown option!! to send e-mail"
 fi
+log "Success"
 
 
 
