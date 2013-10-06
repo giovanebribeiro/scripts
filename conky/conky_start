@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# O ultimo comando nao deve ter '&'
+conky -c $PWD/conkyrc &
+conky -c $PWD/conkyrc_2
