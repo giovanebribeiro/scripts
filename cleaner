@@ -78,10 +78,10 @@ clean_unnecessary_packages_pacman(){
 	
 	_packages=$(pacman -Qdtq)
 	
-	if [ -n $_packages ] ; then
+	if [ "$_packages" ] ; then
 		pacman -Rns $_packages
 		teste=`echo $?`
-		if [ $teste == "0" ] ; then
+		if [ "$teste" == "0" ] ; then
 			log "** $(echo $_packages | wc -l) packages removed($_packages)\n"
 		else
 			log "** Fail to execute: pacman -Rns $_packages\n"
