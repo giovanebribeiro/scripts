@@ -1,0 +1,44 @@
+#!/bin/bash
+
+##
+# File: backup_raspberry
+# Description: Backup script for Raspberry Pi. Creates a image in external storage.
+# Date: 16/01/2014
+##
+
+# Local de destino da imagem
+DST=/home/giovane/hd/backup
+# Nome do arquivo de imagem(sera' complementado com a data):
+FILENAME=backup_$HOSTNAME_
+NOW=$(date +%d-%m-%Y)
+TAG="BACKUP"
+
+logger -t $TAG -s "ETAPA 1: Verificando o diretorio de backup..."
+if [ ! -d $DST ] ; then
+	logger -t $TAG -s "$DST nao existe. Criando..."
+	mkdir -p $DST
+fi
+
+logger -t $TAG -s "ETAPA 2: Desligando os servicos..."
+systemctl stop smbd nmbd
+sleep 5
+systemctl stop transmission
+sleep 5
+systemctl stop btsync
+sleep 5
+systemctl stop cronie
+sleep 5 
+
+logger -t $TAG -s "ETAPA 3: Efetuando o backup..."
+dd if=/dev/mmcblk0 of=$DST/$FILENAME$NOW.img
+
+logger -t $TAG -s "ETAPA 4: Reiniciando os servicos..."
+sleep 5
+systemctl start cronie
+sleep 5
+systemctl start btsync
+sleep 5
+systemctl start transmission
+sleep 5
+systemctl start smbd nmbd
+sleep 5
