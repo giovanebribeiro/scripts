@@ -6,8 +6,25 @@
 # Date: 16/01/2014
 ##
 
-# Local de destino da imagem
+##
+# Configs
+##
+# Backup's image directory
 DST=/home/giovane/hd/backup
+
+
+
+
+
+
+
+
+
+
+
+##
+# Not change behind this point...
+##
 # Nome do arquivo de imagem(sera' complementado com a data):
 FILENAME=backup_$HOSTNAME_
 NOW=$(date +%d-%m-%Y)
