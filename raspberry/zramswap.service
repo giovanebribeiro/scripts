@@ -1,0 +1,11 @@
+[Unit]
+Description=Zram-based swap (compressed RAM block devices)
+
+[Service]
+Type=oneshot
+ExecStart=/home/giovane/scripts/raspberry/zramctrl start
+ExecStop=/home/giovane/scripts/raspberry/zramctrl stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
