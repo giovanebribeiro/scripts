@@ -39,7 +39,6 @@ echo "*		$0 ad <app_name>"
 echo "*		$0 rm <app_name>"
 echo "*		$0 sd <app_name> <title> <message>"
 echo "************************************************"
-exit
 }
 
 #
@@ -49,6 +48,7 @@ add_api_key(){
 if [ ! $# -eq 1 ] ; then
 echo "Invalid # of parameters"
 _help
+exit
 fi
 
 API_NAME=$1
@@ -66,6 +66,7 @@ exit
 rm_api_key(){
 if [ ! $# -eq 1 ] ; then
 _help
+exit
 fi
 
 API_NAME=$1
@@ -86,6 +87,7 @@ send(){
 if [ ! $# -eq 3 ] ; then
 	echo "Invalid # of parameters"
 	_help
+	exit
 fi
 
 APP_NAME="$1"
