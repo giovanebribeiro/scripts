@@ -145,7 +145,7 @@ init(){
 	exit	
 }
 
-if [ ! -z $CONF_FILE ] ; then
+if [ ! -e $CONF_FILE ] ; then
 	init	
 fi
 
