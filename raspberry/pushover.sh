@@ -129,7 +129,13 @@ init(){
 			echo -n "* Would you like to add api keys (y/n)?"
 			read option
 			case $option in
-				y) add_api_key ;;
+				y)  
+					echo -n "* Digit the app name: "
+					read API_NAME
+					echo -n "* Digit the app key: "
+					read API_KEY
+					echo "$API_KEY" > $CONF_FILE/$API_NAME
+				;;
 				n) break ;;
 				*) echo "** Incorrect option." ;;
 			esac
@@ -140,7 +146,7 @@ init(){
 }
 
 if [ ! -z $CONF_FILE ] ; then
-	echo "Configuration files isn't created!"
+	echo "Configuration files isn't created! Run '$0 it'"
 	init
 	exit
 fi
