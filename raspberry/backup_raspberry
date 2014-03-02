@@ -30,6 +30,8 @@ FILENAME=backup_$HOSTNAME_
 NOW=$(date +%d-%m-%Y)
 TAG="BACKUP"
 
+sh `pwd`/pushover.sh sd backup "Backup Cotoco" "Iniciando os procedimentos de backup"
+
 logger -t $TAG -s "ETAPA 1: Verificando o diretorio de backup..."
 if [ ! -d $DST ] ; then
 	logger -t $TAG -s "$DST nao existe. Criando..."
@@ -59,3 +61,6 @@ systemctl start transmission
 sleep 5
 systemctl start smbd nmbd
 sleep 5
+
+sh `pwd`/pushover.sh sd backup "Backup Cotoco" "Backup finalizado com sucesso."
+
