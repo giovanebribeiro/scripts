@@ -109,46 +109,44 @@ send(){
 }
 
 init(){
-	if [ ! -e $CONF_FILE ] ; then
-		mkdir $CONF_FILE
-		echo "********************************************************"
-		echo "* Pushover script"
-		echo "* Access your profile in http://pushover.net for more"
-		echo "* informations to obtain your keys."
-		echo "*"
-		echo -n "* User key: "
-		read USER_KEY
-		echo "$USER_KEY" > $CONF_FILE/_USER_KEY
-		echo -n "* Device name [optional]: "
-		read DEVICE
-		if [ -z $DEVICE ] ; then
-			DEVICE=""
-		fi
-		echo "$DEVICE" >> $CONF_FILE/_DEVICE
-		while true; do
-			echo -n "* Would you like to add api keys (y/n)?"
-			read option
-			case $option in
-				y)  
-					echo -n "* Digit the app name: "
-					read API_NAME
-					echo -n "* Digit the app key: "
-					read API_KEY
-					echo "$API_KEY" > $CONF_FILE/$API_NAME
-				;;
-				n) break ;;
-				*) echo "** Incorrect option." ;;
-			esac
-		done
-		echo "********************************************************"
-		exit
+	#if [ ! -e $CONF_FILE ] ; then
+	#	mkdir $CONF_FILE
+	#fi
+	echo "********************************************************"
+	echo "* Pushover script"
+	echo "* Access your profile in http://pushover.net for more"
+	echo "* informations to obtain your keys."
+	echo "*"
+	echo -n "* User key: "
+	read USER_KEY
+	echo "$USER_KEY" > $CONF_FILE/_USER_KEY
+	echo -n "* Device name [optional]: "
+	read DEVICE
+	if [ -z $DEVICE ] ; then
+		DEVICE=""
 	fi
+	echo "$DEVICE" >> $CONF_FILE/_DEVICE
+	while true; do
+		echo -n "* Would you like to add api keys (y/n)?"
+		read option
+		case $option in
+			y)  
+				echo -n "* Digit the app name: "
+				read API_NAME
+				echo -n "* Digit the app key: "
+				read API_KEY
+				echo "$API_KEY" > $CONF_FILE/$API_NAME
+			;;
+			n) break ;;
+			*) echo "** Incorrect option." ;;
+		esac
+	done
+	echo "********************************************************"
+	exit	
 }
 
 if [ ! -z $CONF_FILE ] ; then
-	echo "Configuration files isn't created! Run '$0 it'"
-	init
-	exit
+	init	
 fi
 
 case $1 in
