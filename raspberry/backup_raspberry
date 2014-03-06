@@ -10,7 +10,8 @@
 # Configs
 ##
 # Backup's image directory
-DST=/home/giovane/hd/backup
+DST=/home/giovane/hd/backup/cotoco
+PUSHOVER_DIR=/home/giovane/scripts/raspberry
 
 
 
@@ -26,11 +27,9 @@ DST=/home/giovane/hd/backup
 # Not change behind this point...
 ##
 # Nome do arquivo de imagem(sera' complementado com a data):
-FILENAME=backup_$HOSTNAME_
+FILENAME=backup_
 NOW=$(date +%d-%m-%Y)
 TAG="BACKUP"
-
-sh `pwd`/pushover.sh sd backup "Backup Cotoco" "Iniciando os procedimentos de backup"
 
 logger -t $TAG -s "ETAPA 1: Verificando o diretorio de backup..."
 if [ ! -d $DST ] ; then
@@ -62,5 +61,5 @@ sleep 5
 systemctl start smbd nmbd
 sleep 5
 
-sh `pwd`/pushover.sh sd backup "Backup Cotoco" "Backup finalizado com sucesso."
+sh $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "Backup finalizado com sucesso."
 

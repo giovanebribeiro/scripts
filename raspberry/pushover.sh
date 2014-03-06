@@ -99,6 +99,8 @@ send(){
 	DEVICE=`cat $CONF_FILE/_DEVICE`
 	API_KEY=`cat $CONF_FILE/$APP_NAME`
 
+	sleep 3
+
 	curl \
 	-F "token=${API_KEY}" \
 	-F "user=${USER_KEY}" \
