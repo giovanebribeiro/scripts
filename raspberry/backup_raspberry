@@ -65,5 +65,5 @@ sleep 5
 systemctl start smbd nmbd
 sleep 5
 
-sh $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "Backup finalizado com sucesso."
+/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "Backup finalizado com sucesso."
 
