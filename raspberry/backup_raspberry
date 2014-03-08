@@ -31,6 +31,8 @@ FILENAME=backup_
 NOW=$(date +%d-%m-%Y)
 TAG="BACKUP"
 
+/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Backup" "Iniciando Procedimentos de Backup" 
+
 logger -t $TAG -s "ETAPA 1: Verificando o diretorio de backup..."
 if [ ! -d $DST ] ; then
 	logger -t $TAG -s "$DST nao existe. Criando..."
@@ -48,6 +50,8 @@ systemctl stop cronie
 sleep 5 
 
 logger -t $TAG -s "ETAPA 3: Efetuando o backup..."
+ionice -c 3 -p $$
+renice +12 -p $$
 dd if=/dev/mmcblk0 of=$DST/$FILENAME$NOW.img
 
 logger -t $TAG -s "ETAPA 4: Reiniciando os servicos..."
