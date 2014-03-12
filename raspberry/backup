@@ -39,6 +39,8 @@ if [ ! -d $DST ] ; then
 	mkdir -p $DST
 fi
 
+systemctl daemon-reload
+
 logger -t $TAG -s "ETAPA 2: Desligando os servicos..."
 systemctl stop smbd nmbd
 sleep 5
@@ -50,8 +52,8 @@ systemctl stop cronie
 sleep 5 
 
 logger -t $TAG -s "ETAPA 3: Efetuando o backup..."
-ionice -c 3 -p $$
-renice +12 -p $$
+#ionice -c 3 -p $$
+#renice +12 -p $$
 dd if=/dev/mmcblk0 of=$DST/$FILENAME$NOW.img
 
 logger -t $TAG -s "ETAPA 4: Reiniciando os servicos..."

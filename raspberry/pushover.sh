@@ -80,6 +80,7 @@ case $option in
 	n) exit ;;
 	*) exit ;;
 esac
+exit
 }
 
 #
@@ -108,6 +109,7 @@ send(){
 	-F "title=${TITLE}" \
 	-F "message=${MESSAGE}" \
 	"https://api.pushover.net/1/messages.json" > /dev/null 2>&1
+	exit
 }
 
 init(){
