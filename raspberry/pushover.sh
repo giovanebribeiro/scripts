@@ -47,6 +47,11 @@ echo "************************************************"
 #
 #
 add_api_key(){
+if [ ! -e $CONF_FILE ] ; then
+	echo "$CONF_FILE inexistent. Use '$0 it' to first use."
+	exit
+fi
+
 if [ ! $# -eq 1 ] ; then
 	echo "Invalid # of parameters"
 	_help
@@ -66,6 +71,12 @@ exit
 #
 #
 rm_api_key(){
+
+if [ ! -e $CONF_FILE ] ; then
+	echo "$CONF_FILE inexistent. Use '$0 it' to first use."
+	exit
+fi
+
 if [ ! $# -eq 1 ] ; then
 _help
 exit
@@ -87,6 +98,12 @@ exit
 #
 #
 send(){
+if [ ! -e $CONF_FILE ] ; then
+	echo "$CONF_FILE inexistent. Use '$0 it' to first use."
+	exit
+fi
+		
+
 	if [ ! $# -eq 3 ] ; then
 		echo "Invalid # of parameters"
 		_help
@@ -113,9 +130,9 @@ send(){
 }
 
 init(){
-	#if [ ! -e $CONF_FILE ] ; then
-	#	mkdir $CONF_FILE
-	#fi
+	if [ ! -e $CONF_FILE ] ; then
+		mkdir $CONF_FILE
+	fi
 	echo "********************************************************"
 	echo "* Pushover script"
 	echo "* Access your profile in http://pushover.net for more"
@@ -148,10 +165,6 @@ init(){
 	echo "********************************************************"
 	exit	
 }
-
-if [ ! -e $CONF_FILE ] ; then
-	init	
-fi
 
 case $1 in
 	it) init ;;
