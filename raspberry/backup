@@ -35,6 +35,7 @@ MSG2="Procedimentos de backup [2/4]: Verificando a pasta de backup."
 MSG3="Procedimentos de backup [3/4]: Criando o arquivo de backup."
 MSG4="Procedimentos de backup [4/4]: Reiniciando o sistema."
 
+logger -t $TAG -s $MSG1
 /bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "$MSG1"
 systemctl daemon-reload
 sleep 5
@@ -47,6 +48,7 @@ sleep 5
 systemctl stop cronie
 sleep 10
 
+logger -t $TAG -s $MSG2
 /bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "$MSG2"
 if [ ! -d $DST ] ; then
         logger -t $TAG -s "$DST nao existe. Criando..."
@@ -56,10 +58,12 @@ cd $DST
 rm *.img
 sleep 10
 
-/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "MSG3"
+logger -t $TAG -s $MSG3
+/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "$MSG3"
 dd bs=1M if=/dev/mmcblk0 of=$DST/$FILENAME$NOW.img
 sleep 10
 
+logger -t $TAG -s $MSG4
 /bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "$MSG4"
 sleep 10
 reboot
