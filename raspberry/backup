@@ -60,7 +60,7 @@ sleep 10
 
 logger -t $TAG -s $MSG3
 /bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "$MSG3"
-dd bs=1M if=/dev/mmcblk0 of=$DST/$FILENAME$NOW.img
+dd if=/dev/mmcblk0 of=$DST/$FILENAME$NOW.img
 sleep 10
 
 logger -t $TAG -s $MSG4
