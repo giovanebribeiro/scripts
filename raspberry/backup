@@ -30,19 +30,14 @@ PUSHOVER_DIR=/home/giovane/scripts/raspberry
 FILENAME=backup_
 NOW=$(date +%d-%m-%Y)
 TAG="BACKUP"
+MSG1="Procedimentos de backup [1/4]: Desligando os daemons."
+MSG2="Procedimentos de backup [2/4]: Verificando a pasta de backup."
+MSG3="Procedimentos de backup [3/4]: Criando o arquivo de backup."
+MSG4="Procedimentos de backup [4/4]: Reiniciando o sistema."
 
-/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Backup" "Iniciando Procedimentos de Backup" 
-
-logger -t $TAG -s "ETAPA 1: Verificando o diretorio de backup..."
-if [ ! -d $DST ] ; then
-	logger -t $TAG -s "$DST nao existe. Criando..."
-	mkdir -p $DST
-fi
-
+/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "$MSG1"
 systemctl daemon-reload
-sleep 10
-
-logger -t $TAG -s "ETAPA 2: Desligando os servicos..."
+sleep 5
 systemctl stop smbd nmbd
 sleep 5
 systemctl stop transmission
@@ -50,23 +45,22 @@ sleep 5
 systemctl stop btsync
 sleep 5
 systemctl stop cronie
-sleep 5 
+sleep 10
 
-logger -t $TAG -s "ETAPA 3: Efetuando o backup..."
-#ionice -c 3 -p $$
-#renice +12 -p $$
-dd if=/dev/mmcblk0 of=$DST/$FILENAME$NOW.img
+/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "$MSG2"
+if [ ! -d $DST ] ; then
+        logger -t $TAG -s "$DST nao existe. Criando..."
+        mkdir -p $DST
+fi
+cd $DST
+rm *.img
+sleep 10
 
-logger -t $TAG -s "ETAPA 4: Reiniciando os servicos..."
-sleep 5
-systemctl start cronie
-sleep 5
-systemctl start btsync
-sleep 5
-systemctl start transmission
-sleep 5
-systemctl start smbd nmbd
-sleep 5
+/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "MSG3"
+dd bs=1M if=/dev/mmcblk0 of=$DST/$FILENAME$NOW.img
+sleep 10
 
-/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "Backup finalizado com sucesso."
+/bin/bash $PUSHOVER_DIR/pushover.sh sd cotoco "Cotoco" "$MSG4"
+sleep 10
+reboot
 
