@@ -10,7 +10,8 @@
 # Configs
 ##
 # Backup's image directory
-DST=/home/giovane/hd/backup/cotoco
+HOSTNAME=`hostname`
+DST=/home/giovane/hd/backup/$HOSTNAME
 PUSHOVER_DIR=/home/giovane/scripts/raspberry
 #
 #
@@ -68,8 +69,6 @@ if [ ! -d $DST ] ; then
         logger -t $TAG -s "$DST nao existe. Criando..."
         mkdir -p $DST
 fi
-cd $DST
-rm *.img
 sleep 10
 
 logger -t $TAG -s $MSG3
