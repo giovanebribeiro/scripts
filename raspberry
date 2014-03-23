@@ -94,8 +94,8 @@ backup(){
         fi
 
         # Run this process with low priority.
-        ionice -c 3 -p $$
-        renice +12 -p $$
+#        ionice -c 3 -p $$
+#        renice +12 -p $$
 
         # sync
         rsync $RSYNC_OPTIONS \
