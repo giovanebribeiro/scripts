@@ -84,6 +84,9 @@ backup(){
         MSG1="Backup iniciado com sucesso."
         MSG2="Backup finalizado com sucesso"
 
+	logger -t $bTAG -s "Parando os servicos..."
+	/bin/bash $PUSHOVER_DIR/services stop
+
         logger -t $bTAG -s $MSG1
         /bin/bash $PUSHOVER_DIR/pushover sd cotoco "Cotoco" "$MSG1"
         INIT=$(date +"%s")
@@ -129,6 +132,10 @@ backup(){
 
         FINISH=$(date +"%s")
         DIFF=$(($FINISH-$INIT))
+
+	logger -t $bTAG -s "Reinicializando os servicos"
+	/bin/bash $PUSHOVER_DIR/services start
+
         logger -t $bTAG -s $MSG2
         /bin/bash $PUSHOVER_DIR/pushover sd cotoco "Cotoco" "$MSG2 (Execution time: $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds)."
 
