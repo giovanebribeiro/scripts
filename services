@@ -18,6 +18,8 @@ echo "##" >> $FILECONF
 echo "" >> $FILECONF
 echo "#cronie" >> $FILECONF
 echo "#transmission" >> $FILECONF
+
+echo "File $FILECONF created. Edit this file to use this script in future."
 fi
 
 systemctl daemon-reload
