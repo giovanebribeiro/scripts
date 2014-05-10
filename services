@@ -27,7 +27,7 @@ while read line
 do
 if [ ! ${line:0:1} == '#' ] ; then
 echo "Ligando o servico: $line"
-#systemctl start $line
+systemctl start $line
 fi
 done < $FILECONF
 }
@@ -37,7 +37,7 @@ while read line
 do
 if [ ! ${line:0:1} == '#' ] ; then
 echo "Desligando o servico: $line"
-#systemctl stop $line
+systemctl stop $line
 fi
 done < $FILECONF
 }
