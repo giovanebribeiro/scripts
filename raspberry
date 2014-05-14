@@ -141,7 +141,7 @@ backup(){
 	MSG3=`cat ~/backup.temp`
 	rm ~/backup.temp
 	logger -t $bTAG -s $MSG3	
-        /bin/bash $PUSHOVER_DIR/pushover sd cotoco "Backup" $MSG3
+        /bin/bash $PUSHOVER_DIR/pushover sd cotoco "Backup" "$MSG3"
 }
 
 restore(){
