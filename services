@@ -48,12 +48,26 @@ status(){
 while read line
 do
 if [ ! ${line:0:1} == '#' ] ; then
-RESP=`systemctl status $line | grep -i "Active"`
+RESP=`systemctl status $line | grep -i -m 1 "Active"`
 echo "### $line - " $RESP >> ~/temp
 fi
 done < $FILECONF
 cat ~/temp
 rm ~/temp
+}
+
+# Reinicia os servicos que falharam por algum motivo.
+_watchdog(){
+while read line
+do
+if [ ! ${line:0:1} == '#' ] ; then
+RESP=`systemctl status $line | grep -i -m 1 "\(running\)"`
+if [ "$RESP" == "" ] ; then
+echo "Restarting service $line"
+systemctl restart $line
+fi
+fi
+done < $FILECONF
 }
 
 
@@ -67,7 +81,10 @@ stop)
 status)
 	status
 ;;
+watchdog)
+	_watchdog
+;;
 *)
-	echo "Usage: $0 [start|stop|status]"
+	echo "Usage: $0 [start|stop|status|watchdog]"
 ;;
 esac 	
