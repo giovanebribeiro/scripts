@@ -27,19 +27,22 @@ HOSTNAME=`hostname`
 #
 # RSync options
 #
-# -r = recursive into directories
-# -l = copy symlinks as symlinks
-# -t = preserve modification times
-# -W = copy files whole (w/o delta-xfer algorithm)
-# -D = preserve device files
-# -E = preserve executability
-# -g = preserve group
-# -o = preserve owner
-# -p = preserve permissions
-# -v = verbose
+# -a: Archive. 
+#	Includes options:
+# 	-r: recursion
+# 	-l: preserve symbolic links as symbolic links. Opposite of -L
+# 	-p: preserve permissions (Linux/unix only)
+# 	-t: preserve file modification time
+#- 	-g: preserve group ownership
+# 	-o: preserve user ownership
+# 	-D: preserve special files and devices (Linux/unix only)
+# -A : Preserve ACLs archives
+# -X : Preserve extended attributes
+# 
+# --progress: Shows precent complete
 #
 #
-RSYNC_OPTIONS="--force -rltWDEgopv"
+RSYNC_OPTIONS="-aAX --progress"
 DST_ROOT=$EXT_HD_LOCATION/backup/raspberry
 #
 #
@@ -182,7 +185,7 @@ rsync $RSYNC_OPTIONS \
       --exclude '/run' \
       --exclude '/sys' \
       --exclude '/tmp' \
-      --exclude '/lost\+found' \
+      --exclude '/lost+found' \
      / $DST >> $DST_ROOT/rsync.log
  
 logger -t $TAG -s "::: 3 - Checking if have enough changes to create a hardlink."
