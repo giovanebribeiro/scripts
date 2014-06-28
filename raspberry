@@ -62,7 +62,7 @@ echo "Version: $VERSION"
 #
 #
 _help(){
-echo "Raspberry Utils"
+echo "Raspberry Utils (For Arch Linux ARM only)"
 echo ""
 echo "Usage: $0 [options]"
 echo ""
@@ -81,14 +81,13 @@ backup(){
         MINCHANGES=20
 
         bTAG="$TAG:BACKUP"
-        MSG1="Backup iniciado com sucesso."
-        MSG2="Backup finalizado com sucesso"
+	MSG1="::: Starting the backup procedures"
+        MSG2="::: Backup finished"
 
-	logger -t $bTAG -s "Parando os servicos..."
+	logger -t $bTAG -s "::: 1 - Stopping the services"
 	/bin/bash $PUSHOVER_DIR/services stop
 
         logger -t $bTAG -s $MSG1
-        #/bin/bash $PUSHOVER_DIR/pushover sd cotoco "Cotoco" "$MSG1"
         INIT=$(date +"%s")
 
         if [ ! -d $DST ]
@@ -112,10 +111,10 @@ backup(){
                 --exclude '/tmp' \
                 --exclude '/lost\+found' \
                 / $DST >> $DST_ROOT/rsync.log
-
+ 
+        logger -t $TAG -s "::: 2 - Checking if enough has changed to create a hardlink."
         if [ -e $DST_ROOT/rsync.log ]
         then
-                logger -t $TAG -s "Checking if enough has changed to create a hardlink."
                 COUNT=$( wc -l $DST_ROOT/rsync.log | cut -d" " -f1 )
                 if [ $COUNT -gt $MINCHANGES ]
                then
@@ -133,7 +132,7 @@ backup(){
         FINISH=$(date +"%s")
         DIFF=$(($FINISH-$INIT))
 
-	logger -t $bTAG -s "Reinicializando os servicos"
+	logger -t $bTAG -s "::: 3 - Restarting the services"
 	/bin/bash $PUSHOVER_DIR/services start
 
         echo "$MSG2 (Execution time: $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds" >> ~/backup.temp
@@ -145,7 +144,23 @@ backup(){
 }
 
 restore(){
+	INIT=$(date +"%s")
+
         rTAG="$TAG:RESTORE"
+	logger -t $rTAG -s "::: Starting the restore procedures"
+	sleep 3
+	logger -t $rTAG -s "::: 1 - Installing the needed packages..."
+	pacman -Sy rsync ntfs-3g --noconfirm
+	logger -t $rTAG -s "::: 2 - Mounting the External Hard Drive (located in /dev/sda1)..."
+	mount -t ntfs-3g /dev/sda1 /mnt
+	if [ ! -d $DST_ROOT ] 
+	then
+		logger -t $rTAG "The backup folder ($DST_ROOT) doesn't exist. Nothing to do."
+		exit 1
+	fi
+
+	logger -t $rTAG -s "::: 3 - Backup options:"
+	echo `ls $DST_ROOT`
         echo -n "Set the data for backup (dd-MM-yyyy) [leave empty for latest backup]"
         read DATE
 
@@ -163,15 +178,22 @@ restore(){
                         exit 1
                 fi
         fi
+	INIT=$(date +"%s")
         SRC=$DST_ROOT/$TAG
-        logger -t $rTAG -s "SRC Directory: $SRC"
-        if [ -d $SRC ]
-        then
-                rsync $RSYNC_OPTIONS $SRC /
-        else
-                logger -t $rTAG -s "$SRC doesn't exist."
-                exit 1
-        fi
+        logger -t $rTAG -s "::: 4 - Starting the restore (src folder: $SRC)"
+        rsync $RSYNC_OPTIONS $SRC /
+	FINISH=$(date +"%s")
+        DIFF=$(($FINISH-$INIT))
+
+	logger -t $rTAG -s "::: 5 - System upgrade"
+	pacman -Syu --noconfirm
+
+	logger -t $bTAG -s "::: 6 - Starting the services"
+	/bin/bash $PUSHOVER_DIR/services start
+
+	FINISH=$(date +"%s")
+        DIFF=$(($FINISH-$INIT))
+        echo "::: Restore finished (Execution time: $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds"
 }
 
 case $1 in
