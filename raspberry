@@ -20,18 +20,18 @@ OPTION_2=$2
 ##
 # Change to your username
 USERNAME=giovane
-#
-#
-#
-#
-#
-#
-#
-#
-VERSION="2.0"
 EXT_HD_LOCATION=/mnt
+#
+#
+#
+#
+#
+##
+# Constraints
+##
+VERSION="2.0"
 TEMP=$(readlink -f $0)
-PUSHOVER_DIR=$(dirname $TEMP)
+BASEDIR=$(dirname $TEMP)
 TAG="RASPBERRY_UTILS"
 HOSTNAME=`hostname`
 #
@@ -222,11 +222,11 @@ logger -t $bTAG -s "::: 4 - Restarting the services"
 services "start"
 
 echo "$MSG2 (Execution time: $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds" >> ~/backup.temp
-echo `/bin/bash $PUSHOVER_DIR/services status` >> ~/backup.temp
+services "status" >> ~/backup.temp
 MSG3=`cat ~/backup.temp`
 rm ~/backup.temp
 logger -t $bTAG -s $MSG3	
-/bin/bash $PUSHOVER_DIR/pushover sd cotoco "Backup" "$MSG3"
+/bin/bash $BASEDIR/pushover sd cotoco "Backup" "$MSG3"
 }
 #
 #
