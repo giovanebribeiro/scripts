@@ -20,7 +20,8 @@ OPTION_2=$2
 ##
 VERSION="2.0"
 EXT_HD_LOCATION=/mnt
-PUSHOVER_DIR=/root/scripts
+TEMP=$(readlink -f $0)
+PUSHOVER_DIR=$(dirname $TEMP)
 TAG="RASPBERRY_UTILS"
 HOSTNAME=`hostname`
 #
@@ -256,7 +257,6 @@ logger -t $rTAG -s "The date isn't in the right format. Please use dd-MM-yyyy"
 exit 1
 fi
 fi
-INIT=$(date +"%s")
 SRC=$DST_ROOT/$TAG
 logger -t $rTAG -s "::: 4 - Starting the restore (src folder: $SRC)"
 rsync $RSYNC_OPTIONS $SRC /
