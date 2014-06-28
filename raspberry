@@ -18,6 +18,16 @@ OPTION_2=$2
 ##
 # Configs
 ##
+# Change to your username
+USERNAME=giovane
+#
+#
+#
+#
+#
+#
+#
+#
 VERSION="2.0"
 EXT_HD_LOCATION=/mnt
 TEMP=$(readlink -f $0)
@@ -238,7 +248,7 @@ sleep 3
 logger -t $rTAG -s "::: 1 - Installing the needed packages..."
 pacman -Sy rsync ntfs-3g --noconfirm
 logger -t $rTAG -s "::: 2 - Mounting the External Hard Drive (located in /dev/sda1)..."
-mount -t ntfs-3g /dev/sda1 /mnt
+mount -t ntfs-3g /dev/sda1 $EXT_HD_LOCATION
 if [ ! -d $DST_ROOT ] 
 then
 logger -t $rTAG -s "The backup folder ($DST_ROOT) doesn't exist. Nothing to do."
@@ -267,8 +277,7 @@ fi
 SRC=$DST_ROOT/$TAG
 logger -t $rTAG -s "::: 4 - Starting the restore (src folder: $SRC)"
 rsync $RSYNC_OPTIONS --progress $SRC/* /
-FINISH=$(date +"%s")
-DIFF=$(($FINISH-$INIT))
+chown $USERNAME:users $EXT_HD_LOCATION
 
 logger -t $rTAG -s "::: 5 - System upgrade"
 pacman -Syu --noconfirm
