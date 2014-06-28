@@ -1,5 +1,6 @@
 #!/bin/bash
 
-PUSHOVER=/home/giovane/scripts/pushover
+TEMP=$(readlink -f $0)
+PUSHOVER_DIR=$(dirname $TEMP)
 
-/bin/bash $PUSHOVER sd cotoco "Torrent Complete!" "$TR_TORRENT_NAME"
+/bin/bash $PUSHOVER_DIR/pushover sd cotoco "Torrent Complete!" "$TR_TORRENT_NAME"

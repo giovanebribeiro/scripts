@@ -42,7 +42,7 @@ HOSTNAME=`hostname`
 # --progress: Shows precent complete
 #
 #
-RSYNC_OPTIONS="-aAX --progress"
+RSYNC_OPTIONS="-aAX"
 DST_ROOT=$EXT_HD_LOCATION/backup/raspberry
 #
 #
@@ -176,7 +176,7 @@ mkdir -p $DST
 fi
 
 logger -t $bTAG -s "::: 2 - Executing the backup"
-rsync $RSYNC_OPTIONS \
+rsync $RSYNC_OPTIONS -v \
       --delete \
       --exclude '/dev' \
       --exclude '/media' \
@@ -266,7 +266,7 @@ fi
 fi
 SRC=$DST_ROOT/$TAG
 logger -t $rTAG -s "::: 4 - Starting the restore (src folder: $SRC)"
-rsync $RSYNC_OPTIONS $SRC/* /
+rsync $RSYNC_OPTIONS --progress $SRC/* /
 FINISH=$(date +"%s")
 DIFF=$(($FINISH-$INIT))
 
