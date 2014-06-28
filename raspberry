@@ -99,19 +99,18 @@ echo "If the file changes 20 times, create a hardlink."
 echo "Steps: "
 echo "1 - Stopping the services"
 echo "2 - Executing the backup"
-echo "3 - Checking if have enough changes to create a hardlink"
-echo "4 - Restaring the services"
+echo "3 - Restaring the services"
 ;;
-r)
-echo "Restore the Arch Linux ARM system."
-echo "Steps:"
-echo "1 - Installing the needed packages (rsync, ntfs-3g, etc)"
-echo "2 - Mounting the external hard drive"
-echo "3 - Backup options (set the date backup or latest backup)"
-echo "4 - Execute the rsync"
-echo "5 - System upgrade"
-echo "6 - Starting the services"
-;;
+#r)
+#echo "Restore the Arch Linux ARM system."
+#echo "Steps:"
+#echo "1 - Installing the needed packages (rsync, ntfs-3g, etc)"
+#echo "2 - Mounting the external hard drive"
+#echo "3 - Backup options (set the date backup or latest backup)"
+#echo "4 - Execute the rsync"
+#echo "5 - System upgrade"
+#echo "6 - Starting the services"
+#;;
 s)
 echo "Systemd services management."
 echo "The services are listed in /etc/services.conf file (one service per line)."
@@ -186,45 +185,48 @@ mkdir -p $DST
 fi
 
 logger -t $bTAG -s "::: 2 - Executing the backup"
-rsync $RSYNC_OPTIONS -v \
-      --delete \
-      --exclude '/dev' \
-      --exclude '/media' \
-      --exclude '/mnt' \
-      --exclude '/proc' \
-      --exclude '/run' \
-      --exclude '/sys' \
-      --exclude '/tmp' \
-      --exclude '/lost+found' \
-     / $DST >> $DST_ROOT/rsync.log
- 
-logger -t $TAG -s "::: 3 - Checking if have enough changes to create a hardlink."
-if [ -e $DST_ROOT/rsync.log ]
-then
-COUNT=$( wc -l $DST_ROOT/rsync.log | cut -d" " -f1 )
-if [ $COUNT -gt $MINCHANGES ]
-then
 NOW=$(date +%d-%m-%Y)
-if [ ! -e $DST_ROOT/$NOW ]
-then
-cp -al $DST $DST_ROOT/$NOW
-chmod u+w $DST_ROOT/$NOW
-mv $DST_ROOT/rsync.log $DST_ROOT/$NOW/rsync.log
-chmod u-w $DST_ROOT/$NOW
-fi
-fi
-fi
+#rsync $RSYNC_OPTIONS -v \
+#      --delete \
+#      --exclude '/dev' \
+#      --exclude '/media' \
+#      --exclude '/mnt' \
+#      --exclude '/proc' \
+#      --exclude '/run' \
+#      --exclude '/sys' \
+#      --exclude '/tmp' \
+#      --exclude '/lost+found' \
+#     / $DST >> $DST_ROOT/rsync.log
+ 
+#if [ -e $DST_ROOT/rsync.log ]
+#then
+#COUNT=$( wc -l $DST_ROOT/rsync.log | cut -d" " -f1 )
+#if [ $COUNT -gt $MINCHANGES ]
+#then
+#NOW=$(date +%d-%m-%Y)
+#if [ ! -e $DST_ROOT/$NOW ]
+#then
+#cp -al $DST $DST_ROOT/$NOW
+#chmod u+w $DST_ROOT/$NOW
+#mv $DST_ROOT/rsync.log $DST_ROOT/$NOW/rsync.log
+#chmod u-w $DST_ROOT/$NOW
+#fi
+#fi
+#fi
+dd bs=1M if=/dev/mmcblk0 of=$DST_ROOT/"$NOW".img
+# Eliminating old files (older than 3 days)
+find $NOW* -mtime +3 -exec rm { } \;
+
+
+logger -t $bTAG -s "::: 3 - Restarting the services"
+services "start"
 
 FINISH=$(date +"%s")
 DIFF=$(($FINISH-$INIT))
-
-logger -t $bTAG -s "::: 4 - Restarting the services"
-services "start"
-
-echo "$MSG2 (Execution time: $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds" >> ~/backup.temp
-services "status" >> ~/backup.temp
-MSG3=`cat ~/backup.temp`
-rm ~/backup.temp
+echo "$MSG2 (Execution time: $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds" >> $BASEDIR/backup.temp
+services "status" >> $BASEDIR/backup.temp
+MSG3=`cat $BASEDIR/backup.temp`
+rm $BASEDIR/backup.temp
 logger -t $bTAG -s $MSG3	
 /bin/bash $BASEDIR/pushover sd cotoco "Backup" "$MSG3"
 }
@@ -281,6 +283,8 @@ chown $USERNAME:users $EXT_HD_LOCATION
 
 logger -t $rTAG -s "::: 5 - System upgrade"
 pacman -Syu --noconfirm
+
+logger -t $rTAG -s "::: 6 - Deleting the ssh keys to restart the server"
 
 logger -t $bTAG -s "::: 6 - Starting the services"
 services "start"
@@ -383,7 +387,7 @@ case $OPTION in
 h) _help ;;
 v) version ;;
 b) backup ;;
-r) restore ;;
+#r) restore ;;
 s) services ;;
 *)
 logger -t $TAG -s "Incorrect option."
