@@ -36,9 +36,10 @@ HOSTNAME=`hostname`
 # -g = preserve group
 # -o = preserve owner
 # -p = preserve permissions
+# -v = verbose
 #
 #
-RSYNC_OPTIONS="--force -rltWDEgop"
+RSYNC_OPTIONS="--force -rltWDEgopv"
 DST_ROOT=$EXT_HD_LOCATION/backup/raspberry
 #
 #
@@ -262,7 +263,7 @@ fi
 fi
 SRC=$DST_ROOT/$TAG
 logger -t $rTAG -s "::: 4 - Starting the restore (src folder: $SRC)"
-rsync $RSYNC_OPTIONS -v $SRC/* /
+rsync $RSYNC_OPTIONS $SRC/* /
 FINISH=$(date +"%s")
 DIFF=$(($FINISH-$INIT))
 
