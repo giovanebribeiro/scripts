@@ -39,7 +39,7 @@ HOSTNAME=`hostname`
 #
 #
 RSYNC_OPTIONS="--force -rltWDEgop"
-DST_ROOT=$EXT_HD_LOCATION/backup/$HOSTNAME
+DST_ROOT=$EXT_HD_LOCATION/backup/raspberry
 #
 #
 #
