@@ -228,7 +228,7 @@ logger -t $bTAG -s $MSG3
 #
 restore(){
 INIT=$(date +"%s")
-TAG="$TAG:RESTORE"
+rTAG="$TAG:RESTORE"
 logger -t $rTAG -s "::: Starting the restore procedures"
 sleep 3
 logger -t $rTAG -s "::: 1 - Installing the needed packages..."
@@ -237,7 +237,7 @@ logger -t $rTAG -s "::: 2 - Mounting the External Hard Drive (located in /dev/sd
 mount -t ntfs-3g /dev/sda1 /mnt
 if [ ! -d $DST_ROOT ] 
 then
-logger -t $rTAG "The backup folder ($DST_ROOT) doesn't exist. Nothing to do."
+logger -t $rTAG -s "The backup folder ($DST_ROOT) doesn't exist. Nothing to do."
 exit 1
 fi
 
