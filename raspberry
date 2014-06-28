@@ -159,11 +159,11 @@ esac
 #
 backup(){
 
-if ! rsync --version > /dev/null
-then
-logger -t $TAG -s "This script needs rsync to run properly."
-exit 0
-fi
+#if ! rsync --version > /dev/null
+#then
+#logger -t $TAG -s "This script needs rsync to run properly."
+#exit 0
+#fi
 
 
 DST="$DST_ROOT/latest"
@@ -215,7 +215,7 @@ NOW=$(date +%d-%m-%Y)
 #fi
 dd bs=1M if=/dev/mmcblk0 of=$DST_ROOT/"$NOW".img
 # Eliminating old files (older than 3 days)
-find $NOW* -mtime +3 -exec rm { } \;
+find $DST_ROOT/* -mtime +3 -exec rm { } \;
 
 
 logger -t $bTAG -s "::: 3 - Restarting the services"
