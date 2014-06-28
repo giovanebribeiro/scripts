@@ -262,7 +262,7 @@ fi
 fi
 SRC=$DST_ROOT/$TAG
 logger -t $rTAG -s "::: 4 - Starting the restore (src folder: $SRC)"
-rsync $RSYNC_OPTIONS $SRC /
+rsync $RSYNC_OPTIONS $SRC/* /
 FINISH=$(date +"%s")
 DIFF=$(($FINISH-$INIT))
 
