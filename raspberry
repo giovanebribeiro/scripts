@@ -51,11 +51,6 @@ fi
 #
 #
 #
-if ! rsync --version > /dev/null
-then
-logger -t $TAG -s "This script needs rsync to run properly."
-exit 0
-fi
 #
 #
 #
@@ -150,6 +145,14 @@ esac
 #
 #
 backup(){
+
+if ! rsync --version > /dev/null
+then
+logger -t $TAG -s "This script needs rsync to run properly."
+exit 0
+fi
+
+
 DST="$DST_ROOT/latest"
 MINCHANGES=20
 
