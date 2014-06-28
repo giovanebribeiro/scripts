@@ -242,8 +242,8 @@ exit 1
 fi
 
 logger -t $rTAG -s "::: 3 - Backup options:"
-echo `ls $DST_ROOT`
-echo -n "Set the data for backup (dd-MM-yyyy) [leave empty for latest backup]: "
+echo "Content of $DST_ROOT: "`ls $DST_ROOT`
+echo -n "Set the date for backup (dd-MM-yyyy). [leave empty for latest backup]. The date is the folder name: "
 read DATE
 
 TAG="$DATE"
