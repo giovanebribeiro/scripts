@@ -166,8 +166,8 @@ backup(){
 #fi
 
 
-DST="$DST_ROOT/latest"
-MINCHANGES=20
+#DST="$DST_ROOT/latest"
+#MINCHANGES=20
 
 bTAG="$TAG:BACKUP"
 MSG1="::: Starting the backup procedures"
