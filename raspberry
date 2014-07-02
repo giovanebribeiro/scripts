@@ -179,10 +179,10 @@ INIT=$(date +"%s")
 logger -t $bTAG -s "::: 1 - Stopping the services"
 services "stop"
 
-if [ ! -d $DST ]
-then
-mkdir -p $DST
-fi
+#if [ ! -d $DST ]
+#then
+#mkdir -p $DST
+#fi
 
 logger -t $bTAG -s "::: 2 - Executing the backup"
 NOW=$(date +%d-%m-%Y)
@@ -216,7 +216,6 @@ NOW=$(date +%d-%m-%Y)
 dd bs=1M if=/dev/mmcblk0 of=$DST_ROOT/"$NOW".img
 # Eliminating old files (older than 3 days)
 find $DST_ROOT/* -mtime +3 -exec rm { } \;
-
 
 logger -t $bTAG -s "::: 3 - Restarting the services"
 services "start"
