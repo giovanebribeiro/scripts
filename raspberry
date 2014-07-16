@@ -217,7 +217,7 @@ NOW=$(date +%d-%m-%Y)
 
 dd bs=1M if=/dev/mmcblk0 of=$DST_ROOT/"$NOW".img
 # Eliminating old files (older than 3 days)
-find $DST_ROOT/* -name "*.img" -mtime +2 -delete
+find $DST_ROOT/* -name "*.img" -mtime +1 -delete
 
 logger -t $bTAG -s "::: 3 - Restarting the services"
 services "start"
@@ -370,6 +370,7 @@ watchdog)
 while read line
 do
 if [ ! ${line:0:1} == '#' ] ; then
+echo "Check status of service: $line"
 RESP=`systemctl status $line | grep -i -m 1 "\(running\)"`
 if [ "$RESP" == "" ] ; then
 echo "Restarting service $line"
@@ -377,6 +378,15 @@ systemctl restart $line
 fi
 fi
 done < $FILECONF
+;;
+*)
+echo "Usage: $0 s [options]"
+echo ""
+echo "Options:"
+echo "* start: Start all the services present in file /etc/services.conf"
+echo "* stop: Stop all the services present in file /etc/services.conf"
+echo "* status: Check the status of all the services"
+echo "* watchdog: for each file present in /etc/services.conf; if the service is out, restart it."
 ;;
 esac
 }
