@@ -7,9 +7,9 @@
 
 #List of alias
 alias ls='ls --color=auto'
-alias log_cron_full='journalctl /usr/bin/crond'
-alias log_cron_tail='journalctl -xn /usr/bin/crond'
-alias log_cron_today='journalctl -x since=00:00:00 /usr/bin/crond'
+alias log-cron-full='journalctl /usr/bin/crond'
+alias log-cron-tail='journalctl -xn /usr/bin/crond'
+alias log-cron-today='journalctl -x since=00:00:00 /usr/bin/crond'
 
 #PS1
 PS1='[\u@\h \W]\$ '
@@ -19,24 +19,29 @@ PS1='[\u@\h \W]\$ '
 export EDITOR=vim
 
 # Initial Banner
-echo "#################################################################"
-echo "# __        __     _                                            #"
-echo "# \ \      / /___ | |  ___  ___   _ __ ___    ___               #"
-echo "#  \ \ /\ / // _ \| | / __|/ _ \ | '_ ` _ \  / _ \              #"
-echo "#   \ V  V /|  __/| || (__| (_) || | | | | ||  __/ _            #"
-echo "#    \_/\_/  \___||_| \___|\___/ |_| |_| |_| \___|( )           #"
-echo "#                                                 |/            #"
-echo "#  __  __            ____  _                                    #"
-echo "# |  \/  | _ __     / ___|(_)  ___ __   __ __ _  _ __    ___    #"
-echo "# | |\/| || '__|   | |  _ | | / _ \\ \ / // _` || '_ \  / _ \   #"
-echo "# | |  | || | _    | |_| || || (_) |\ V /| (_| || | | ||  __/ _ #"
-echo "# |_|  |_||_|(_)    \____||_| \___/  \_/  \__,_||_| |_| \___|(_)#"
-echo "#                                                               #"
-echo "#################################################################"
-echo ""
-echo ""
-echo ""
+cat << "EOT"
+#################################################################
+# __        __     _                                            #
+# \ \      / /___ | |  ___  ___   _ __ ___    ___               #
+#  \ \ /\ / // _ \| | / __|/ _ \ | '_ ` _ \  / _ \              #
+#   \ V  V /|  __/| || (__| (_) || | | | | ||  __/ _            #
+#    \_/\_/  \___||_| \___|\___/ |_| |_| |_| \___|( )           #
+#                                                 |/            #
+#  __  __            ____  _                                    #
+# |  \/  | _ __     / ___|(_)  ___ __   __ __ _  _ __    ___    #
+# | |\/| || '__|   | |  _ | | / _ \\ \ / // _` || '_ \  / _ \   #
+# | |  | || | _    | |_| || || (_) |\ V /| (_| || | | ||  __/ _ #
+# |_|  |_||_|(_)    \____||_| \___/  \_/  \__,_||_| |_| \___|(_)#
+#                                                               #
+#################################################################
+EOT
+echo 
+echo 
+echo
 echo "List of alias:"
-echo "* log_cron_full"
-echo "* log_cron_tail"
-echo "* log_cron_today" 
+echo "* log-cron-full"
+echo "* log-cron-tail"
+echo "* log-cron-today"
+echo 
+echo 
+echo  
