@@ -7,9 +7,9 @@
 
 #List of alias
 alias ls='ls --color=auto'
-alias log-cron-full='journalctl /usr/bin/crond'
-alias log-cron-tail='journalctl -xn /usr/bin/crond'
-alias log-cron-today='journalctl -x since=00:00:00 /usr/bin/crond'
+alias log-cron-full="journalctl /usr/bin/crond"
+alias log-cron-tail="journalctl -xn /usr/bin/crond"
+alias log-cron-today="journalctl -x --since='00:00:00' /usr/bin/crond"
 
 #PS1
 PS1='[\u@\h \W]\$ '
@@ -19,7 +19,9 @@ PS1='[\u@\h \W]\$ '
 export EDITOR=vim
 
 # Initial Banner
+echo 
 cat << "EOT"
+
 #################################################################
 # __        __     _                                            #
 # \ \      / /___ | |  ___  ___   _ __ ___    ___               #
