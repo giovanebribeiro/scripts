@@ -15,6 +15,8 @@ export EDITOR=/usr/bin/vim
 PATH=$PATH:/home/giovane/workspace/scripts/ ;export PATH
 export HISTFILESIZE=3000 # The bash history should save 3000 commands
 export HISTCONTROL=ignoredups # don't put duplicate lines in the history
+export PYTHON=python2.7 # para o npm
+export PGROOT="/home/giovane/workspace/_servers/postgres"
 
 # Some colors
 BLACK='\e[0;30m'
@@ -70,23 +72,23 @@ alias bashedit="/usr/bin/vim /home/giovane/workspace/scripts/bashrc"
 
 # FUNCTIONS
 ###############################################
-spin(){
-echo -ne "${RED}-"
-echo -ne "${WHITE}\b|"
-echo -ne "${BLUE}\bx"
-sleep .02
-echo -ne "${RED}\b+${NC}"
-}
+#spin(){
+#echo -ne "${RED}-"
+#echo -ne "${WHITE}\b|"
+#echo -ne "${BLUE}\bx"
+#sleep .02
+#echo -ne "${RED}\b+${NC}"
+#}
 
 # WELCOME SCREEN
 ###############################################
 clear
-for i in `seq 1 30` ; do spin ; done; echo -ne "${WHITE} Hello, ${USER}!! ${NC}"; for i in `seq 1 30` ; do spin ; done; echo "" 
-echo -ne "${WHITE}Today is: "; date
-echo -e "${CYAN}"; cal; echo ""; 
-echo -e "\n${WHITE}System Information:${CYAN}"; uname -smr
-echo -e "\n`bash --version`"
+#for i in `seq 1 30` ; do spin ; done; echo -ne "${WHITE} Hello, ${USER}!! ${NC}"; for i in `seq 1 30` ; do spin ; done; echo "" 
+#echo -ne "${WHITE}Today is: "; date
+#echo -e "${CYAN}"; cal; 
+echo -e "${WHITE}"; uname -smr
+#echo -e "`bash --version`"
 echo -ne "\n${WHITE}"; df -h | grep Filesystem ; 
 echo -e "${CYAN}"; df -h | grep -v Filesystem | grep -v /dev/shm | grep -v devtmpfs | grep -v tmpfs;
 echo -e "\n${WHITE}Uptime:$NC"; uptime
-for i in `seq 1 77` ; do spin ; done; echo ""; echo "";
+#for i in `seq 1 77` ; do spin ; done; echo ""; echo "";
