@@ -115,14 +115,15 @@ NOW=$(date +%d-%m-%Y)
 dd bs=1M if=/dev/mmcblk0 of=$DST_ROOT/"$NOW".img
 
 # Compressing the backup file:
-/bin/bash $BASEDIR/pushover sd cotoco "Backup" "Compressing and uploading the backup file"
-tar cf $DST_ROOT/"$NOW".tar $DST_ROOT/"$NOW".img
-rm $DST_ROOT/"$NOW".img
-gzip $DST_ROOT/"$NOW".tar
-rm $DST_ROOT/"$NOW".tar
+#/bin/bash $BASEDIR/pushover sd cotoco "Backup" "Compressing and uploading the backup file"
+#tar cf $DST_ROOT/"$NOW".tar $DST_ROOT/"$NOW".img
+#rm $DST_ROOT/"$NOW".img
+#gzip $DST_ROOT/"$NOW".tar
+#rm $DST_ROOT/"$NOW".tar
 
 # Eliminating old files (older than 3 days)
-find $DST_ROOT/* -name "*.tar.gz" -mtime +1 -delete
+#find $DST_ROOT/* -name "*.tar.gz" -mtime +1 -delete
+find $DST_ROOT/* -name "*.img" -mtime +1 -delete
 
 # Dropbox Uploader
 #$DROPBOX_UPLOADER -f /home/$USERNAME/.dropbox_uploader upload $DST_ROOT/"$NOW".tar.gz /
