@@ -1,0 +1,36 @@
+#!/bin/bash
+
+##
+# BTSync Uploader
+# Atualiza a vers√o do Bit Torrent Sync.
+# Autor: giovanebribeiro
+##
+
+LINK="http://download-new.utorrent.com/endpoint/btsync/os/linux-arm/track/stable"
+FILE="bittorrent_sync_arm.tar.gz"
+TMP="/tmp"
+DST="/usr/local/bin"
+EXE="btsync"
+TEMP=$(readlink -f $0)
+BASEDIR=$(dirname $TEMP)
+PUSHOVER=""
+
+# Primeira etapa: Download da versao candidata e descompactacao:
+cd $TMP
+wget $LINK/$FILE
+tar -zxvf $FILE
+
+# Segunda etapa: Checagem da versao antiga com a versao nova
+VERSAO_ANTIGA=$($DST/btsync --help | grep "BitTorrent Sync")
+VERSAO_NOVA=$(btsync --help | grep "BitTorrent Sync")
+
+if [ "$VERSAO_ANTIGA" == "$VERSAO_NOVA" ] ; then
+	echo "Versoes iguais. Nao faco nada."
+else
+	echo "Versoes diferentes. Atualizo."
+	# Terceira etapa: Atualizacao
+	mv $TMP/$EXE $DST/$EXE
+
+	# Enviando a mensagem via pushover
+	/bin/bash $BASEDIR/pushover sd cotoco "BTSync Uploader" "Atualizado para: $VERSAO_NOVA"
+fi
