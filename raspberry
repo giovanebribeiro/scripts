@@ -94,11 +94,16 @@ esac
 #
 backup(){
 bTAG="$TAG:BACKUP"
+
+
 MSG1="::: Starting the backup procedures"
 MSG2="::: Backup finished"
 
-/bin/bash $BASEDIR/pushover sd cotoco "Backup" "$MSG1"
 logger -t $bTAG -s $MSG1
+
+#echo "Rodando a mensagem no pushover..."
+#echo "BASEDIR=$BASEDIR"
+/bin/bash $BASEDIR/pushover sd cotoco "Backup" "$MSG1"
 INIT=$(date +"%s")
 
 logger -t $bTAG -s "::: 1 - Stopping the services"
@@ -285,6 +290,7 @@ if [ "$RESP" == "" ] ; then
 echo "Restarting service $line"
 systemctl restart $line
 fi
+sleep 10
 fi
 done < $FILECONF
 ;;
