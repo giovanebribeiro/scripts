@@ -16,7 +16,7 @@ PATH=$PATH:/home/giovane/workspace/scripts/ ;export PATH
 export HISTFILESIZE=3000 # The bash history should save 3000 commands
 export HISTCONTROL=ignoredups # don't put duplicate lines in the history
 export PYTHON=python2.7 # para o npm
-export PGROOT="/home/giovane/workspace/_servers/postgres"
+export PGROOT="/home/giovane/.postgres"
 
 # Some colors
 BLACK='\e[0;30m'

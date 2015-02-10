@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # O ultimo comando nao deve ter '&'
-LOC=/home/giovane/workspace/scripts/conky
+LOC=/home/giovane/workspace/outros/scripts/conky
 conky -c $LOC/conkyrc &
-conky -c $LOC/conkyrc_2
+#conky -c $LOC/conkyrc_2
