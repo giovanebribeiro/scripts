@@ -34,28 +34,8 @@ TEMP=$(readlink -f $0)
 BASEDIR=$(dirname $TEMP)
 TAG="RASPBERRY_UTILS"
 HOSTNAME=`hostname`
-#
-# RSync options
-#
-# -a: Archive. 
-#	Includes options:
-# 	-r: recursion
-# 	-l: preserve symbolic links as symbolic links. Opposite of -L
-# 	-p: preserve permissions (Linux/unix only)
-# 	-t: preserve file modification time
-#- 	-g: preserve group ownership
-# 	-o: preserve user ownership
-# 	-D: preserve special files and devices (Linux/unix only)
-# -A : Preserve ACLs archives
-# -X : Preserve extended attributes
-# 
-# --progress: Shows precent complete
-#
-#
-RSYNC_OPTIONS="-aAX"
 DST_ROOT=$EXT_HD_LOCATION/backup/raspberry
-#
-#
+DROPBOX_UPLOADER=/home/$USERNAME/workspace/Dropbox-Uploader/dropbox_uploader.sh
 #
 if [ `id -u` != 0 ]
 then
@@ -64,29 +44,11 @@ exit 1
 fi
 #
 #
-#
-#
-#
-#
-#
-#
-#
-#
-#
 version(){
 echo "Raspberry Utils"
 echo "Author: Giovane Boaviagem Ribeiro (giovanebribeiro@gmail.com)"
 echo "Version: $VERSION"
 }
-#
-#
-#
-#
-#
-#
-#
-#
-#
 #
 _help(){
 case $OPTION_2 in
@@ -94,23 +56,12 @@ v)
 echo "The script version."
 ;;
 b)
-echo "Creates a backup in snapshot-tree. Only available in Arch Linux ARM."
-echo "If the file changes 20 times, create a hardlink."
+echo "Creates a backup in .img file. Only available in Arch Linux ARM."
 echo "Steps: "
 echo "1 - Stopping the services"
 echo "2 - Executing the backup"
 echo "3 - Restaring the services"
 ;;
-#r)
-#echo "Restore the Arch Linux ARM system."
-#echo "Steps:"
-#echo "1 - Installing the needed packages (rsync, ntfs-3g, etc)"
-#echo "2 - Mounting the external hard drive"
-#echo "3 - Backup options (set the date backup or latest backup)"
-#echo "4 - Execute the rsync"
-#echo "5 - System upgrade"
-#echo "6 - Starting the services"
-#;;
 s)
 echo "Systemd services management."
 echo "The services are listed in /etc/services.conf file (one service per line)."
@@ -135,45 +86,24 @@ echo "Available options:"
 echo ""
 echo "h = Print this help"
 echo "v = Print the version"
-echo "b = Backup the raspberry (Using rsync)"
-echo "r = Restore the raspberry (Using rsync)"
+echo "b = Backup the raspberry"
 echo "s = Services management"
 ;;
 esac
 }
 #
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
 backup(){
-
-#if ! rsync --version > /dev/null
-#then
-#logger -t $TAG -s "This script needs rsync to run properly."
-#exit 0
-#fi
-
-
-#DST="$DST_ROOT/latest"
-#MINCHANGES=20
-
 bTAG="$TAG:BACKUP"
+
+
 MSG1="::: Starting the backup procedures"
 MSG2="::: Backup finished"
 
 logger -t $bTAG -s $MSG1
+
+#echo "Rodando a mensagem no pushover..."
+#echo "BASEDIR=$BASEDIR"
+/bin/bash $BASEDIR/pushover sd cotoco "Backup" "$MSG1"
 INIT=$(date +"%s")
 
 logger -t $bTAG -s "::: 1 - Stopping the services"
@@ -187,37 +117,21 @@ services "stop"
 logger -t $bTAG -s "::: 2 - Executing the backup"
 NOW=$(date +%d-%m-%Y)
 
-#rsync $RSYNC_OPTIONS -v \
-#      --delete \
-#      --exclude '/dev' \
-#      --exclude '/media' \
-#      --exclude '/mnt' \
-#      --exclude '/proc' \
-#      --exclude '/run' \
-#      --exclude '/sys' \
-#      --exclude '/tmp' \
-#      --exclude '/lost+found' \
-#     / $DST >> $DST_ROOT/rsync.log
- 
-#if [ -e $DST_ROOT/rsync.log ]
-#then
-#COUNT=$( wc -l $DST_ROOT/rsync.log | cut -d" " -f1 )
-#if [ $COUNT -gt $MINCHANGES ]
-#then
-#NOW=$(date +%d-%m-%Y)
-#if [ ! -e $DST_ROOT/$NOW ]
-#then
-#cp -al $DST $DST_ROOT/$NOW
-#chmod u+w $DST_ROOT/$NOW
-#mv $DST_ROOT/rsync.log $DST_ROOT/$NOW/rsync.log
-#chmod u-w $DST_ROOT/$NOW
-#fi
-#fi
-#fi
-
 dd bs=1M if=/dev/mmcblk0 of=$DST_ROOT/"$NOW".img
+
+# Compressing the backup file:
+#/bin/bash $BASEDIR/pushover sd cotoco "Backup" "Compressing and uploading the backup file"
+#tar cf $DST_ROOT/"$NOW".tar $DST_ROOT/"$NOW".img
+#rm $DST_ROOT/"$NOW".img
+#gzip $DST_ROOT/"$NOW".tar
+#rm $DST_ROOT/"$NOW".tar
+
 # Eliminating old files (older than 3 days)
+#find $DST_ROOT/* -name "*.tar.gz" -mtime +1 -delete
 find $DST_ROOT/* -name "*.img" -mtime +1 -delete
+
+# Dropbox Uploader
+#$DROPBOX_UPLOADER -f /home/$USERNAME/.dropbox_uploader upload $DST_ROOT/"$NOW".tar.gz /
 
 logger -t $bTAG -s "::: 3 - Restarting the services"
 services "start"
@@ -225,7 +139,7 @@ services "start"
 FINISH=$(date +"%s")
 DIFF=$(($FINISH-$INIT))
 echo "$MSG2 (Execution time: $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds" >> $BASEDIR/backup.temp
-services "status" >> $BASEDIR/backup.temp
+#services "status" >> $BASEDIR/backup.temp
 MSG3=`cat $BASEDIR/backup.temp`
 rm $BASEDIR/backup.temp
 logger -t $bTAG -s $MSG3	
@@ -376,6 +290,7 @@ if [ "$RESP" == "" ] ; then
 echo "Restarting service $line"
 systemctl restart $line
 fi
+sleep 10
 fi
 done < $FILECONF
 ;;

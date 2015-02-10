@@ -119,7 +119,7 @@ fi
 
 	sleep 3
 
-	curl \
+	curl -v --connect-timeout 20 \
 	-F "token=${API_KEY}" \
 	-F "user=${USER_KEY}" \
 	-F "device=${DEVICE}" \
