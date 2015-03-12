@@ -17,6 +17,7 @@ export HISTFILESIZE=3000 # The bash history should save 3000 commands
 export HISTCONTROL=ignoredups # don't put duplicate lines in the history
 export PYTHON=python2.7 # para o npm
 export PGROOT="/home/giovane/.postgres"
+export TERM=xterm-256color
 
 # Some colors
 BLACK='\e[0;30m'
