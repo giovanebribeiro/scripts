@@ -10,12 +10,12 @@ call vundle#begin()
 
 " Vundle se auto-gerencia
 Plugin 'gmarik/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'ervandew/supertab'
-Plugin 'tir_black'
-Plugin 'jnurmine/Zenburn'
-Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'scrooloose/nerdtree'                    " Exibe a arvore de diretorios 
+Plugin 'mustache/vim-mustache-handlebars'       " syntax highlight para mustache / handlebars
+Plugin 'ervandew/supertab'                      " Tab completion
+Plugin 'jnurmine/Zenburn'                       " Tema
+Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
+Plugin 'tpope/vim-surround'                     " Troca tags, parenteses, etc.
 
 call vundle#end()
 filetype plugin indent on
@@ -32,8 +32,9 @@ set ts=2 sw=2 et
 let g:indent_guides_auto_colors=0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
 autocmd VimEnter,ColorScheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=237
-let g:indent_guides_start_level=2
+let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
+let g:indent_guides_enable_on_vim_startup=0 "enable on startup
     
 "
 " Atalhos
