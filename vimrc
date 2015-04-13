@@ -16,6 +16,8 @@ Plugin 'ervandew/supertab'                      " Tab completion
 Plugin 'jnurmine/Zenburn'                       " Tema
 Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
 Plugin 'tpope/vim-surround'                     " Troca tags, parenteses, etc.
+Plugin 'taglist.vim'                            " Source code browser (Pre-requisito: instalar ctags)
+
 
 call vundle#end()
 filetype plugin indent on
@@ -42,4 +44,5 @@ let g:indent_guides_enable_on_vim_startup=0 "enable on startup
 "# Ctrl + n: Ativa a NERDTree
 map <C-n> :NERDTreeToggle<CR>
 "# Ctrl + i: Ativa a identacao
-map <C-i> :IndentGuidesToggle<CR> 
+map <C-i> :IndentGuidesToggle<CR>
+"# Ctrl + t: Ativa o tag browser
