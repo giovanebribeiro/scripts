@@ -50,7 +50,7 @@ map <C-i> :IndentGuidesToggle<CR>
 
 "### Atalhos com SHIFT
 "# Shift + ,: Avanca para a aba esquerda
-map <S-,> :gT<CR>
+map <S-Left> gT
 "# Shift + .: Avanca para a aba direita
-map <S-.> :gt<CR>
+map <S-Right> gt
 
