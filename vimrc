@@ -41,8 +41,16 @@ let g:indent_guides_enable_on_vim_startup=0 "enable on startup
 "
 " Atalhos
 "
+
+"### Atalhos com CTRL
 "# Ctrl + n: Ativa a NERDTree
 map <C-n> :NERDTreeToggle<CR>
 "# Ctrl + i: Ativa a identacao
 map <C-i> :IndentGuidesToggle<CR>
-"# Ctrl + t: Ativa o tag browser
+
+"### Atalhos com SHIFT
+"# Shift + ,: Avanca para a aba esquerda
+map <S-,> :gT<CR>
+"# Shift + .: Avanca para a aba direita
+map <S-.> :gt<CR>
+
