@@ -10,12 +10,14 @@ call vundle#begin()
 
 " Vundle se auto-gerencia
 Plugin 'gmarik/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'ervandew/supertab'
-Plugin 'tir_black'
-Plugin 'jnurmine/Zenburn'
-Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'scrooloose/nerdtree'                    " Exibe a arvore de diretorios 
+Plugin 'mustache/vim-mustache-handlebars'       " syntax highlight para mustache / handlebars
+Plugin 'ervandew/supertab'                      " Tab completion
+Plugin 'jnurmine/Zenburn'                       " Tema
+Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
+Plugin 'tpope/vim-surround'                     " Troca tags, parenteses, etc.
+Plugin 'taglist.vim'                            " Source code browser (Pre-requisito: instalar ctags)
+
 
 call vundle#end()
 filetype plugin indent on
@@ -34,11 +36,21 @@ autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
 autocmd VimEnter,ColorScheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=237
 let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
+let g:indent_guides_enable_on_vim_startup=0 "enable on startup
     
 "
 " Atalhos
 "
+
+"### Atalhos com CTRL
 "# Ctrl + n: Ativa a NERDTree
 map <C-n> :NERDTreeToggle<CR>
 "# Ctrl + i: Ativa a identacao
-map <C-i> :IndentGuidesToggle<CR> 
+map <C-i> :IndentGuidesToggle<CR>
+
+"### Atalhos com SHIFT
+"# Shift + ,: Avanca para a aba esquerda
+map <S-Left> gT
+"# Shift + .: Avanca para a aba direita
+map <S-Right> gt
+
