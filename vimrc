@@ -32,7 +32,7 @@ set ts=2 sw=2 et
 let g:indent_guides_auto_colors=0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
 autocmd VimEnter,ColorScheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=237
-let g:indent_guides_start_level=2
+let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
     
 "
