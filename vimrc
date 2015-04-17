@@ -37,7 +37,14 @@ autocmd VimEnter,ColorScheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=237
 let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
 let g:indent_guides_enable_on_vim_startup=0 "enable on startup
-    
+
+
+"
+" ctags
+"
+let g:tlist_javascript_settings = 'javascript;s:string;a:array;o:object;f:function;e:export;v:variable;m:classmethod;i:include'
+
+
 "
 " Atalhos
 "
