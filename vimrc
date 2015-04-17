@@ -36,13 +36,13 @@ autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
 autocmd VimEnter,ColorScheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=237
 let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
-let g:indent_guides_enable_on_vim_startup=0 "enable on startup
+let g:indent_guides_enable_on_vim_startup=1 "enable on startup
 
 
 "
 " ctags
 "
-let g:tlist_javascript_settings = 'javascript;s:string;a:array;o:object;f:function;e:export;v:variable;m:classmethod;i:include'
+let g:tlist_javascript_settings = 'javascript;i:include;o:object;v:variable;m:classmethod;f:function;s:string;a:array;e:export;'
 
 
 "
@@ -56,8 +56,8 @@ map <C-n> :NERDTreeToggle<CR>
 map <C-i> :IndentGuidesToggle<CR>
 
 "### Atalhos com SHIFT
-"# Shift + ,: Avanca para a aba esquerda
+"# Shift + Left: Avanca para a aba esquerda
 map <S-Left> gT
-"# Shift + .: Avanca para a aba direita
+"# Shift + Right: Avanca para a aba direita
 map <S-Right> gt
 
