@@ -48,6 +48,11 @@ let g:indent_guides_enable_on_vim_startup=1 "enable on startup
 "set statusline = %{fugitive#statusline()}
 
 "
+" ctags
+"
+let g:tlist_javascript_settings = 'javascript;i:include;o:object;v:variable;m:classmethod;f:function;s:string;a:array;e:export;'
+
+"
 " Atalhos
 "
 
@@ -58,12 +63,11 @@ map <C-n> :NERDTreeToggle<CR>
 map <C-i> :IndentGuidesToggle<CR>
 
 "### Atalhos com SHIFT
-"# Shift + ,: Avanca para a aba esquerda
+"# Shift + Left: Avanca para a aba esquerda
 map <S-Left> gT
-"# Shift + .: Avanca para a aba direita
+"# Shift + Right: Avanca para a aba direita
 map <S-Right> gt
 
 "### Outros atalhos
 map <T> :TlistOpen<CR>
 map <t> :TlistClose<CR>
-
