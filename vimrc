@@ -15,9 +15,13 @@ Plugin 'mustache/vim-mustache-handlebars'       " syntax highlight para mustache
 Plugin 'ervandew/supertab'                      " Tab completion
 Plugin 'jnurmine/Zenburn'                       " Tema
 Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
-Plugin 'tpope/vim-surround'                     " Troca tags, parenteses, etc.
-Plugin 'taglist.vim'                            " Source code browser (Pre-requisito: instalar ctags)
-
+Plugin 'majutsushi/tagbar'                      " Source code browser (Pre-requisito: instalar ctags)
+Plugin 'tpope/vim-fugitive'                     " Git wrapper para vim
+Plugin 'Lokaltog/vim-easymotion'                " Facil navegacao entre palavras
+Plugin 'bufexplorer.zip'                        " Atalhos para navegacao entre buffers
+Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim.
+Plugin 'SirVer/ultisnips'                       " Code snippets
+Plugin 'honza/vim-snippets'                     " Snippets are separated from the engine.
 
 call vundle#end()
 filetype plugin indent on
@@ -36,8 +40,13 @@ autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
 autocmd VimEnter,ColorScheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=237
 let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
-let g:indent_guides_enable_on_vim_startup=0 "enable on startup
-    
+let g:indent_guides_enable_on_vim_startup=1 "enable on startup
+
+"
+" Status line 
+"
+"set statusline = %{fugitive#statusline()}
+
 "
 " Atalhos
 "
@@ -53,4 +62,8 @@ map <C-i> :IndentGuidesToggle<CR>
 map <S-Left> gT
 "# Shift + .: Avanca para a aba direita
 map <S-Right> gt
+
+"### Outros atalhos
+map <T> :TlistOpen<CR>
+map <t> :TlistClose<CR>
 
