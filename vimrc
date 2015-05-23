@@ -22,6 +22,8 @@ Plugin 'bufexplorer.zip'                        " Atalhos para navegacao entre b
 Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim.
 Plugin 'SirVer/ultisnips'                       " Code snippets
 Plugin 'honza/vim-snippets'                     " Snippets are separated from the engine.
+Plugin 'tpope/vim-vividchalk'                   " Tema
+Plugin 'bling/vim-airline'
 
 call vundle#end()
 filetype plugin indent on
@@ -33,7 +35,7 @@ set backspace=indent,eol,start
 
 " Color Scheme, identation, etc
 set t_Co=256
-colors zenburn
+colors vividchalk
 set ts=2 sw=2 et
 let g:indent_guides_auto_colors=0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
@@ -43,9 +45,29 @@ let g:indent_guides_guide_size=1
 let g:indent_guides_enable_on_vim_startup=1 "enable on startup
 
 "
-" Status line 
+" Airline
 "
-"set statusline = %{fugitive#statusline()}
+set laststatus=2
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+
+let g:airline_symbols = {}
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" 
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
 
 "
 " ctags
