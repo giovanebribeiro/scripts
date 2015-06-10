@@ -1,0 +1,40 @@
+#!/bin/sh
+
+echo "##"
+echo "# Init Workflow"
+echo "##"
+echo 
+echo "# Git configs"
+echo
+echo "Check if git is installed"
+git --version | grep "git" > /dev/null 2>&1 || { echo "git package not installed. Aborting. ";  exit 1;}
+echo "Configure global var user.name"
+git config --global user.name "Giovane Boaviagem"
+echo "Configure global var user.email"
+git config --global user.email "giovanebribeiro@gmail.com"
+echo "Create sym link to get_templates folder"
+ln -s $PWD/git_templates $HOME/.git_templates
+echo "Configure global var init.templatedir"
+git config --global init.templatedir '~/.git_templates'
+echo "Configure global var push.default"
+git config --global push.default simple
+echo
+echo "# ctags configs"
+echo
+echo "Check if ctags is installed"
+ctags --version | grep "Exuberant Ctags" > /dev/null 2>&1 || { echo "exuberant-ctags package not installed. Aborting. ";  exit 1;}
+echo "Create an alias to execute ctags in git hooks"
+git config --global alias.ctags '!.git/hooks/ctags'
+echo "Create a symlink to .ctags file"
+ln -s $PWD/ctags_configs $HOME/.ctags
+echo 
+echo "# Vim configs"
+echo 
+echo "Create a symlink to .vimrc file"
+ln -s $PWD/vimrc $HOME/.vimrc
+echo "Clone the Vundle repo"
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+echo "Please, when run vim, execute the ':PluginInstall' command to install the other plugins."
+echo 
+echo "# Done"
+echo 

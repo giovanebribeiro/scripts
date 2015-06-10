@@ -15,7 +15,7 @@ Plugin 'mustache/vim-mustache-handlebars'       " syntax highlight para mustache
 Plugin 'ervandew/supertab'                      " Tab completion
 Plugin 'jnurmine/Zenburn'                       " Tema
 Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
-Plugin 'majutsushi/tagbar'                      " Source code browser (Pre-requisito: instalar ctags)
+Plugin 'taglist.vim'                            " Source code browser (Pre-requisito: instalar ctags)
 Plugin 'tpope/vim-fugitive'                     " Git wrapper para vim
 Plugin 'Lokaltog/vim-easymotion'                " Facil navegacao entre palavras
 Plugin 'bufexplorer.zip'                        " Atalhos para navegacao entre buffers
@@ -91,5 +91,4 @@ map <S-Left> gT
 map <S-Right> gt
 
 "### Outros atalhos
-map <T> :TlistOpen<CR>
-map <t> :TlistClose<CR>
+map <C-T> :TlistToggle<CR>
