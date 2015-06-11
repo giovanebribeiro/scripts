@@ -70,11 +70,6 @@ let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 
 "
-" ctags
-"
-let g:tlist_javascript_settings = 'javascript;i:include;o:object;v:variable;m:classmethod;f:function;s:string;a:array;e:export;'
-
-"
 " Atalhos
 "
 
