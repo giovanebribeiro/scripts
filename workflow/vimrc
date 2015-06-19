@@ -24,6 +24,7 @@ Plugin 'SirVer/ultisnips'                       " Code snippets
 Plugin 'honza/vim-snippets'                     " Snippets are separated from the engine.
 Plugin 'tpope/vim-vividchalk'                   " Tema
 Plugin 'bling/vim-airline'
+Plugin 'tpope/vim-markdown'
 
 call vundle#end()
 filetype plugin indent on
