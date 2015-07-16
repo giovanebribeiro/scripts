@@ -20,8 +20,8 @@ Plugin 'tpope/vim-fugitive'                     " Git wrapper para vim
 Plugin 'Lokaltog/vim-easymotion'                " Facil navegacao entre palavras
 Plugin 'bufexplorer.zip'                        " Atalhos para navegacao entre buffers
 Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim.
-Plugin 'SirVer/ultisnips'                       " Code snippets
-Plugin 'honza/vim-snippets'                     " Snippets are separated from the engine.
+"Plugin 'SirVer/ultisnips'                       " Code snippets
+"Plugin 'honza/vim-snippets'                     " Snippets are separated from the engine.
 Plugin 'tpope/vim-vividchalk'                   " Tema
 Plugin 'bling/vim-airline'
 
@@ -43,6 +43,11 @@ autocmd VimEnter,ColorScheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=237
 let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
 let g:indent_guides_enable_on_vim_startup=1 "enable on startup
+
+"
+" taglist
+"
+let Tlist_Use_Right_Window = 1
 
 "
 " Airline

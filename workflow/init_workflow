@@ -18,15 +18,8 @@ echo "Configure global var init.templatedir"
 git config --global init.templatedir '~/.git_templates'
 echo "Configure global var push.default"
 git config --global push.default simple
-echo
-echo "# ctags configs"
-echo
-echo "Check if ctags is installed"
-ctags --version | grep "Exuberant Ctags" > /dev/null 2>&1 || { echo "exuberant-ctags package not installed. Aborting. ";  exit 1;}
-echo "Create an alias to execute ctags in git hooks"
-git config --global alias.ctags '!.git/hooks/ctags'
-echo "Create a symlink to .ctags file"
-ln -s $PWD/ctags_configs $HOME/.ctags
+echo "Configure global command git lg, to show a better log view"
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit"
 echo 
 echo "# Vim configs"
 echo 
@@ -38,3 +31,13 @@ echo "Please, when run vim, execute the ':PluginInstall' command to install the 
 echo 
 echo "# Done"
 echo 
+echo
+echo "# ctags configs"
+echo
+echo "Check if ctags is installed"
+ctags --version | grep "Exuberant Ctags" > /dev/null 2>&1 || { echo "exuberant-ctags package not installed. Aborting. ";  exit 1;}
+echo "Create an alias to execute ctags in git hooks"
+git config --global alias.ctags '!.git/hooks/ctags'
+echo "Create a symlink to .ctags file"
+ln -s $PWD/ctags_configs $HOME/.ctags
+
