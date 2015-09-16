@@ -1,12 +1,18 @@
 #
 # ~/.bashrc
 # Author: Giovane Boaviagem
-# Running on Arch Linux
-# Based on Novell script (https://www.novell.com/coolsolutions/tools/17142.html)
 #
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+
+# EXPORTS
+# if exports file exists, load it!
+[ -r "$HOME/.exports.sh" ] && source "$HOME/.exports.sh" &>/dev/null
+
+# PS1
+# auxiliary function (returns the current git branch name)
+
 
 # EXPORTS
 ###############################################
