@@ -25,6 +25,7 @@ Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim
 Plugin 'tpope/vim-vividchalk'                   " Tema
 Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-markdown'
+Plugin 'evgenyzinoviev/vim-vendetta'
 
 call vundle#end()
 filetype plugin indent on
@@ -36,7 +37,7 @@ set backspace=indent,eol,start
 
 " Color Scheme, identation, etc
 set t_Co=256
-colors vividchalk
+colors vendetta
 set ts=2 sw=2 et
 let g:indent_guides_auto_colors=0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
