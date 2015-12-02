@@ -106,7 +106,7 @@ Jobs="\j"
 # PS1
 # auxiliary function (returns the current git branch name)
 parse_git_branch(){
-  git --version | grep "git" > /dev/null 2>&1 || return
+  git --version | grep "git" > /dev/null 2>&1 || return # check if git is installed
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
