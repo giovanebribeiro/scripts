@@ -11,4 +11,4 @@ done
 echo ' Bold            $(tput bold)'
 echo ' Underline       $(tput sgr 0 1)'
 echo ' Reset           $(tput sgr0)'
-echo
+  echo
