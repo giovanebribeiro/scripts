@@ -23,7 +23,7 @@ parse_git_branch(){
 
 # if the system is linux, ps1 will be in linux format. Otherwise, in mac format.
 if [ "$(uname -a | grep "Linux")" != "" ] ; then
-  export PS1='\n\e[1;36m[\w]\e[0m\n\u \e[0;31m$(parse_git_branch) \e[1;37m->\e[0m ' 
+  export PS1='\n\e[1;36m[\w]\e[1;33m(\h)\e[0m\n\u \e[0;31m$(parse_git_branch) \e[1;37m->\e[0m ' 
 else
-  export PS1='\n\[$(tput setaf 6)\][\w] \n\[$(tput sgr0)\]\u\[$(tput setaf 1)\]$(parse_git_branch)\[$(tput sgr0)\] \[$(tput bold)\]\[$(tput setaf 7)\]-> \[$(tput sgr0)\]'
+  export PS1='\n\[$(tput setaf 6)\][\w]$(tput bold)$(tput setaf 3)(\h) \n\[$(tput sgr0)\]\u\[$(tput setaf 1)\]$(parse_git_branch)\[$(tput sgr0)\] \[$(tput bold)\]\[$(tput setaf 7)\]-> \[$(tput sgr0)\]'
 fi
