@@ -1,43 +1,98 @@
 #!/bin/sh
 
+#
+# set the checkpoint of process
+#
+checkpoint(){
+ CHECKPOINT=$1 # save in memory and file
+ echo $1 > $HOME/checkpoint
+}
+
+#
+# GIT configurations
+#
+git_configs(){
+ echo "# Git configs"
+ echo
+ echo "Check if git is installed"
+ git --version | grep "git" > /dev/null 2>&1 || { echo "git package not installed. Please install it and execute this script again to continue from this step (git_configs). Aborting. ";  exit 1;}
+ echo "Configure global var user.name"
+ git config --global user.name "Giovane Boaviagem"
+ echo "Configure global var user.email"
+ git config --global user.email "giovanebribeiro@gmail.com"
+ echo "Create sym link to get_templates folder"
+ ln -s $PWD/git_templates $HOME/.git_templates
+ echo "Configure global var init.templatedir"
+ git config --global init.templatedir '~/.git_templates'
+ echo "Configure global var push.default"
+ git config --global push.default matching
+ echo "Configure global command git log, to show a better log view"
+ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit"
+ echo
+ echo "# Done"
+ echo  
+}
+
+vim_configs(){
+ echo "# Vim configs"
+ echo 
+ echo "Create a symlink to .vimrc file"
+ if [ -f $HOME/.vimrc ] ; then # remove old vimrc
+  echo "Renaming old .vimrc file to '.vimrc.old'"
+  mv $HOME/.vimrc $HOME/.vimrc.old
+ fi
+ ln -s $PWD/vimrc $HOME/.vimrc
+ echo "Clone the Vundle repo"
+ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+ echo "Installong the plugins listed in vimrc file"
+ vim +PluginInstall +qall
+ echo 
+ echo "# Done"
+ echo 
+}
+
+ctags_configs(){
+ echo "# ctags configs"
+ echo
+ echo "Check if ctags is installed"
+ ctags --version | grep "Exuberant Ctags" > /dev/null 2>&1 || { echo "exuberant-ctags package not installed. Please install it and execute this script again to continue from this step (ctags_configs). Aborting. ";  exit 1;}
+ echo "Create an alias to execute ctags in git hooks"
+ git config --global alias.ctags '!.git/hooks/ctags'
+ echo "Create a symlink to .ctags file"
+ ln -s $PWD/ctags_configs $HOME/.ctags
+ echo 
+ echo "# Done"
+ echo 
+}
+
+
 echo "##"
 echo "# Init Workflow"
 echo "##"
 echo 
-echo "# Git configs"
-echo
-echo "Check if git is installed"
-git --version | grep "git" > /dev/null 2>&1 || { echo "git package not installed. Aborting. ";  exit 1;}
-echo "Configure global var user.name"
-git config --global user.name "Giovane Boaviagem"
-echo "Configure global var user.email"
-git config --global user.email "giovanebribeiro@gmail.com"
-echo "Create sym link to get_templates folder"
-ln -s $PWD/git_templates $HOME/.git_templates
-echo "Configure global var init.templatedir"
-git config --global init.templatedir '~/.git_templates'
-echo "Configure global var push.default"
-git config --global push.default simple
-echo "Configure global command git lg, to show a better log view"
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit"
-echo 
-echo "# Vim configs"
-echo 
-echo "Create a symlink to .vimrc file"
-ln -s $PWD/vimrc $HOME/.vimrc
-echo "Clone the Vundle repo"
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-echo "Please, when run vim, execute the ':PluginInstall' command to install the other plugins."
-echo 
-echo "# Done"
-echo 
-echo
-echo "# ctags configs"
-echo
-echo "Check if ctags is installed"
-ctags --version | grep "Exuberant Ctags" > /dev/null 2>&1 || { echo "exuberant-ctags package not installed. Aborting. ";  exit 1;}
-echo "Create an alias to execute ctags in git hooks"
-git config --global alias.ctags '!.git/hooks/ctags'
-echo "Create a symlink to .ctags file"
-ln -s $PWD/ctags_configs $HOME/.ctags
+if [ ! -f $HOME/checkpoint ]; then
+ checkpoint 1
+else
+ CHECKPOINT=`cat $HOME/checkpoint`
+fi
+
+
+if [ "$CHECKPOINT" = "1" ] ; then
+ git_configs
+ checkpoint 2
+ vim_configs
+ checkpoint 3
+ ctags_configs 
+ rm $HOME/checkpoint
+elif [ "$CHECKPOINT" = "2" ]; then
+ vim_configs
+ checkpoint 3
+ ctags_configs
+ rm $HOME/checkpoint
+elif [ "$CHECKPOINT" = "3" ]; then
+ ctags_configs
+ rm $HOME/checkpoint
+else
+ echo "unknown checkpoint (checkpoint = $CHECKPOINT). Please try again."
+fi
 
