@@ -224,6 +224,7 @@ mount_file(){
 }
 
 send_to_email(){
+  echo "** send to e-mail"
   FILE2="/tmp/syshealth.mail"
 
   check_dependencies $FILE2
@@ -244,6 +245,7 @@ send_to_email(){
 }
 
 send_to_pushover(){
+  echo "** send to pushover"
   FILE3="/tmp/syshealth.pushover"
   check_dependencies $FILE3
   general_info $FILE3
@@ -252,7 +254,7 @@ send_to_pushover(){
   memory_info $FILE3
 
   INPUT=`cat $FILE3`
-  pushover sd cotoco "Status Report" "$INPUT"
+  /usr/local/bin/pushover sd cotoco "Status Report" "$INPUT"
 
   cat $FILE3
   rm $FILE3
