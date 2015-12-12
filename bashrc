@@ -95,11 +95,32 @@ unicode_to_hex(){
 #⌥
 #⌥
 #├
+#⬆
+#⬇
+#Ξ
+#
+#
 
 
 #export PS1="$"
 export PS1="\n${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${bWhite}]-[${rCyan}\u@\h${bWhite}]\
-  \n\342\224\234[${rYellow}\w${bWhite}]-[${rYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${bWhite}]-[\$(parse_git_branch)${bWhite}]\
+  \n\342\224\234[${rYellow}\w${bWhite}]-[${rYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${bWhite}]\
+  \n\342\224\234[\$(parse_git_branch)${bWhite}]-[\
+\$(\
+  \$(git status > /dev/null 2>&1);
+  if [ \$? == 0 ]; then
+    OUT_PULL=\$(git status 2> /dev/null | grep 'branch is behind');
+    OUT_OK=\$(git status 2> /dev/null | grep 'working directory clean');
+    OUT_PUSH=\$(git status 2> /dev/null | grep 'branch is ahead'); 
+    if [ \"\$OUT_PULL\" != \"\" ]; then
+      echo \" \"${bYellow}\"\342\254\207\";
+    elif [ \"\$OUT_PUSH\" != \"\" ]; then
+      echo \" \"${bYellow}\"\342\254\206\";
+    else
+      echo \" \"${bGreen}\"\316\236\012\";
+    fi
+  fi
+) ${bWhite}]\
   \n\342\224\224[\$]\342\206\222 ${reset}"
 
 # and to finish, export it
