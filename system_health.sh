@@ -183,6 +183,13 @@ memory_info(){
 
 }
 
+bitcoin_info(){
+  BITCOIN_INFO=`bitcoin-cli getinfo`
+  echo "** Bitcoin Info" >> $1
+  echo "" >> $1
+  echo "${BITCOIN_INFO}" >> $1
+}
+
 #
 # Print the help of script
 #
@@ -219,6 +226,7 @@ mount_file(){
   process_info $FILE1
   disk_info $FILE1
   memory_info $FILE1
+  bitcoin_info $FILE1
 
   cat $FILE1
 }
@@ -234,6 +242,7 @@ send_to_email(){
   process_info $FILE2
   disk_info $FILE2
   memory_info $FILE2
+  bitcoin_info $FILE2
 
   # send the email
   cat $FILE2 | mailx -v -A gmx -s "Cotoco Status Report" $1
@@ -252,6 +261,7 @@ send_to_pushover(){
   cpu_info $FILE3
   disk_info $FILE3 
   memory_info $FILE3
+  bitcoin_info $FILE3
 
   INPUT=`cat $FILE3`
   /usr/local/bin/pushover sd cotoco "Status Report" "$INPUT"
