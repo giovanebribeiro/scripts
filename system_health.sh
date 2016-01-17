@@ -5,7 +5,7 @@
 # 
 # Show a system diagnostics and send results to e-mail (optional) and pushover (optional)
 ##
-VERSION=0.0.0
+VERSION=0.1.0
 AUTHOR=giovanebribeiro
 
 
@@ -188,6 +188,8 @@ bitcoin_info(){
   echo "** Bitcoin Info" >> $1
   echo "" >> $1
   echo "${BITCOIN_INFO}" >> $1
+  echo "" >> $1
+  echo "" >> $1
 }
 
 #
@@ -216,39 +218,45 @@ _version(){
 # Mount the file
 #
 mount_file(){
-  NOW=`date +%y%m%d%H%M`
-  FILE1=$HOME/cotoco_report_${NOW}.log
+  #NOW=`date +%y%m%d%H%M`
+  #FILE1=$HOME/cotoco_report_${NOW}.log
+  FILE1=$1
+  COMPLETE_INFO=1
 
   check_dependencies $FILE1
-  header $FILE1
+  if [ "$COMPLETE_INFO" == "1" ]; then
+    header $FILE1
+  fi
   general_info $FILE1
   cpu_info $FILE1
-  process_info $FILE1
-  disk_info $FILE1
-  memory_info $FILE1
   bitcoin_info $FILE1
-
-  cat $FILE1
+  if [ "$COMPLETE_INFO" == "1" ]; then
+    disk_info $FILE1
+    memory_info $FILE1
+    process_info $FILE1
+  fi
 }
 
 send_to_email(){
   echo "** send to e-mail"
   FILE2="/tmp/syshealth.mail"
 
-  check_dependencies $FILE2
-  header $FILE2
-  general_info $FILE2
-  cpu_info $FILE2
-  process_info $FILE2
-  disk_info $FILE2
-  memory_info $FILE2
-  bitcoin_info $FILE2
+  mount_file $FILE2 1
+
+#  check_dependencies $FILE2
+#  header $FILE2
+#  general_info $FILE2
+#  cpu_info $FILE2
+#  process_info $FILE2
+#  disk_info $FILE2
+#  memory_info $FILE2
+#  bitcoin_info $FILE2
 
   # send the email
   cat $FILE2 | mailx -v -A gmx -s "Cotoco Status Report" $1
 
   #print the result
-  cat $FILE2
+#  cat $FILE2
 
   rm $FILE2
 }
@@ -256,17 +264,16 @@ send_to_email(){
 send_to_pushover(){
   echo "** send to pushover"
   FILE3="/tmp/syshealth.pushover"
-  check_dependencies $FILE3
-  general_info $FILE3
-  cpu_info $FILE3
-  disk_info $FILE3 
-  memory_info $FILE3
-  bitcoin_info $FILE3
+  mount_file $FILE3 0
+#  check_dependencies $FILE3
+#  general_info $FILE3
+#  cpu_info $FILE3
+#  bitcoin_info $FILE3
 
   INPUT=`cat $FILE3`
   /usr/local/bin/pushover sd cotoco "Status Report" "$INPUT"
 
-  cat $FILE3
+#  cat $FILE3
   rm $FILE3
 }
 
@@ -274,7 +281,7 @@ send_to_pushover(){
 ### MAIN EXECUTION ###
 ######################
 
-while getopts hvm:p OP; do
+while getopts hvm:pl OP; do
   case "${OP}" in
     h) recv_h=1 
       ;;
@@ -288,6 +295,7 @@ while getopts hvm:p OP; do
       ;;
   esac
 done
+
 
 [[ ${recv_h} ]] && _help
 [[ ${recv_v} ]] && _version
