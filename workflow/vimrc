@@ -15,17 +15,15 @@ Plugin 'mustache/vim-mustache-handlebars'       " syntax highlight para mustache
 Plugin 'ervandew/supertab'                      " Tab completion
 Plugin 'jnurmine/Zenburn'                       " Tema
 Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
-Plugin 'taglist.vim'                            " Source code browser (Pre-requisito: instalar ctags)
+Plugin 'taglist.vim'                            " Source code browser baseado em tags (Pre-requisito: instalar ctags)
 Plugin 'tpope/vim-fugitive'                     " Git wrapper para vim
 Plugin 'Lokaltog/vim-easymotion'                " Facil navegacao entre palavras
 Plugin 'bufexplorer.zip'                        " Atalhos para navegacao entre buffers
 Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim.
-"Plugin 'SirVer/ultisnips'                       " Code snippets
-"Plugin 'honza/vim-snippets'                     " Snippets are separated from the engine.
-Plugin 'tpope/vim-vividchalk'                   " Tema
-Plugin 'bling/vim-airline'
-Plugin 'tpope/vim-markdown'
-Plugin 'evgenyzinoviev/vim-vendetta'
+Plugin 'bling/vim-airline'                      " Uma skin minimalista e objetiva para as barras de status do vim
+Plugin 'tpope/vim-markdown'                     " Habilita a sintaxe de markdown
+Plugin 'evgenyzinoviev/vim-vendetta'            " Tema
+Plugin 'scrooloose/syntastic'               " Corretor de sintaxe
 
 call vundle#end()
 filetype plugin indent on
@@ -96,4 +94,5 @@ map <S-Left> gT
 map <S-Right> gt
 
 "### Outros atalhos
+" Ativa a tab de tags (taglist)
 map <C-T> :TlistToggle<CR>
