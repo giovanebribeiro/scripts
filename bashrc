@@ -130,3 +130,5 @@ export PS1="\n${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]
 #else
 #  export PS1='\n\[$(tput setaf 6)\][\w]$(tput bold)$(tput setaf 3)(\h) \n\[$(tput sgr0)\]\u\[$(tput setaf 1)\]$(parse_git_branch)\[$(tput sgr0)\] \[$(tput bold)\]\[$(tput setaf 7)\]-> \[$(tput sgr0)\]'
 #fi
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
