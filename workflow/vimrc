@@ -28,6 +28,7 @@ Plugin 'scrooloose/syntastic'               " Corretor de sintaxe
 call vundle#end()
 filetype plugin indent on
 
+" General Configurations
 syntax on
 set number
 set backspace=2
@@ -48,15 +49,28 @@ let g:indent_guides_enable_on_vim_startup=1 "enable on startup
 autocmd BufNewFile,BufRead *.json set ft=javascript
 
 "
-" taglist
+" Atalhos gerais
 "
-let Tlist_Use_Right_Window = 1
+"### Atalhos com SHIFT
+"# Shift + Left: Avanca para a aba esquerda
+map <S-Left> gT
+"# Shift + Right: Avanca para a aba direita
+map <S-Right> gt
 
-"
-" Airline
-"
+
+"######
+"### Specific configs
+"#####
+
+"# NERDTree
+map <C-n> :NERDTreeToggle<CR>
+
+"# taglist
+let Tlist_Use_Right_Window = 1
+map <C-T> :TlistToggle<CR>
+
+"# Airline
 set laststatus=2
-" unicode symbols
 let g:airline_left_sep = '»'
 let g:airline_left_sep = '▶'
 let g:airline_right_sep = '«'
@@ -72,27 +86,24 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 
-" 
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 
-"
-" Atalhos
-"
+"# syntastic
+map <C-s-i> :SyntasticInfo<CR>
+map <C-s-c> :SyntasticCheck<CR>
+map <C-s-e> :Errors<CR>
+map <C-s-x> :lclose<CR>
+map <C-s-o> :lopen<CR>
 
-"### Atalhos com CTRL
-"# Ctrl + n: Ativa a NERDTree
-map <C-n> :NERDTreeToggle<CR>
-"# Ctrl + i: Ativa a identacao
-map <C-i> :IndentGuidesToggle<CR>
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-"### Atalhos com SHIFT
-"# Shift + Left: Avanca para a aba esquerda
-map <S-Left> gT
-"# Shift + Right: Avanca para a aba direita
-map <S-Right> gt
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
-"### Outros atalhos
-" Ativa a tab de tags (taglist)
-map <C-T> :TlistToggle<CR>
+let g:syntastic_javascript_checkers = ["jshint"]
