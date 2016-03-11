@@ -23,7 +23,8 @@ Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim
 Plugin 'bling/vim-airline'                      " Uma skin minimalista e objetiva para as barras de status do vim
 Plugin 'tpope/vim-markdown'                     " Habilita a sintaxe de markdown
 Plugin 'evgenyzinoviev/vim-vendetta'            " Tema
-Plugin 'scrooloose/syntastic'               " Corretor de sintaxe
+Plugin 'scrooloose/syntastic'                   " Corretor de sintaxe
+Plugin 'burnettk/vim-angular'                   " Corretor de sintaxe para angular
 
 call vundle#end()
 filetype plugin indent on
@@ -107,3 +108,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_javascript_checkers = ["jshint"]
+let g:syntastic_markdown_checkers = ["mdl"]
+let g:syntastic_dockerfile_checkers = ["dockerfile_lint"]
+" ignore angular directives
+" let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']
