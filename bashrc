@@ -86,6 +86,13 @@ unicode_to_hex(){
   echo -e $1 | hexdump -v -e '/1 "%03o "' | awk '{print "\\" $1 "\\" $2 "\\" $3 }'
 }
 
+##
+# Set the title of console
+##
+title() { printf '\e]2;%s\a' "$*"; }
+
+
+
 #####################################
 ###### SECTION 4: PS1 VARIABLE ######
 #####################################
