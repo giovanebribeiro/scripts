@@ -108,7 +108,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_javascript_checkers = ["jshint"]
-let g:syntastic_markdown_checkers = ["mdl"]
 let g:syntastic_dockerfile_checkers = ["dockerfile_lint"]
 " ignore angular directives
 " let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']

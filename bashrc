@@ -89,7 +89,10 @@ unicode_to_hex(){
 ##
 # Set the title of console
 ##
-title() { printf '\e]2;%s\a' "$*"; }
+title() { 
+#  printf '\e]2;%s\a' "$*";
+  echo -n -e "\033]0;$*\007";
+}
 
 
 
