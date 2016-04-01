@@ -113,7 +113,7 @@ title() {
 
 export PS1="\[${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${bWhite}]-[${rCyan}\u@\h${bWhite}]\]\
 \[\n\342\224\234[${rYellow}\w${bWhite}]-[${rYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${bWhite}]\]\
-\[\n\342\224\234[\$(parse_git_branch)${bWhite}]-[\
+\[\n\342\224\234[\$(parse_git_branch)${bWhite}]-[ \
 \$(\
 \$(git status > /dev/null 2>&1);
   if [ \$? == 0 ]; then
@@ -128,7 +128,7 @@ export PS1="\[${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]
   echo \"\"${bGreen}\"\316\236\012\";
   fi
   fi
-  )${bWhite}]\]\
+  ) ${bWhite}]\]\
   \[\n\342\224\224[\$]\342\206\222 "
 #export PS1="$"
 #export PS1="\[\n${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${bWhite}]-[${rCyan}\u@\h${bWhite}]\
