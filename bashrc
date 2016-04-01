@@ -72,9 +72,9 @@ parse_git_branch(){
   git --version | grep "git" > /dev/null 2>&1 || return # check if git is installed
   echo `git status 2> /dev/null` | grep "nothing to commit" > /dev/null 2>&1
   if [ "$?" -eq "0" ] ; then
-    echo ${rGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+    echo ${bGreen}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
   else
-    echo ${rRed}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+    echo ${bRed}`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
   fi
 }
 
@@ -111,9 +111,9 @@ title() {
 #
 #
 
-export PS1="\[${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${bWhite}]-[${rCyan}\u@\h${bWhite}]\]\
-\[\n\342\224\234[${rYellow}\w${bWhite}]-[${rYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${bWhite}]\]\
-\[\n\342\224\234[\$(parse_git_branch)${bWhite}]-[ \
+export PS1="\[${reset}\342\224\214[${bBlue}\d \@${reset}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${reset}]-[${bCyan}\u@\h${reset}]\]\
+\[\n\342\224\234[${bYellow}\w${reset}]-[${bYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}]\]\
+\[\n\342\224\234[\$(parse_git_branch)${reset}]-[ \
 \$(\
 \$(git status > /dev/null 2>&1);
   if [ \$? == 0 ]; then
@@ -128,8 +128,9 @@ export PS1="\[${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]
   echo \"\"${bGreen}\"\316\236\012\";
   fi
   fi
-  ) ${bWhite}]\]\
-  \[\n\342\224\224[\$]\342\206\222 "
+  ) ${reset}]\]\
+  \[\n\342\224\224 \$ "
+#  \[\n\342\224\224[\$]\342\206\222 "
 #export PS1="$"
 #export PS1="\[\n${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${bWhite}]-[${rCyan}\u@\h${bWhite}]\
 #  \n\342\224\234[${rYellow}\w${bWhite}]-[${rYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${bWhite}]\
