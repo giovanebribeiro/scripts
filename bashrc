@@ -113,7 +113,7 @@ title() {
 
 export PS1="\[${reset}\342\224\214[${bBlue}\d \@${reset}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${reset}]-[${bCyan}\u@\h${reset}]\]\
 \[\n\342\224\234[${bYellow}\w${reset}]-[${bYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}]\]\
-\[\n\342\224\234[\$(parse_git_branch)${reset}]-[ \
+\[\n\342\224\234[\$(parse_git_branch)${reset}]-[\
 \$(\
 \$(git status > /dev/null 2>&1);
   if [ \$? == 0 ]; then
@@ -128,7 +128,7 @@ export PS1="\[${reset}\342\224\214[${bBlue}\d \@${reset}]-[\$(if [[ \$? == 0 ]];
   echo \"\"${bGreen}\"\316\236\012\";
   fi
   fi
-  ) ${reset}]\]\
+  )${reset}]\]\
   \[\n\342\224\224 \$ "
 #  \[\n\342\224\224[\$]\342\206\222 "
 #export PS1="$"
