@@ -32,6 +32,7 @@ filetype plugin indent on
 " General Configurations
 syntax on
 set number
+set relativenumber
 set backspace=2
 set backspace=indent,eol,start
 
