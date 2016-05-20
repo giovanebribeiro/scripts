@@ -13,18 +13,19 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'                    " Exibe a arvore de diretorios 
 Plugin 'mustache/vim-mustache-handlebars'       " syntax highlight para mustache / handlebars
 Plugin 'ervandew/supertab'                      " Tab completion
-Plugin 'jnurmine/Zenburn'                       " Tema
 Plugin 'nathanaelkane/vim-indent-guides'        " Exibe linhas de identacao
 Plugin 'taglist.vim'                            " Source code browser baseado em tags (Pre-requisito: instalar ctags)
 Plugin 'tpope/vim-fugitive'                     " Git wrapper para vim
-Plugin 'Lokaltog/vim-easymotion'                " Facil navegacao entre palavras
-Plugin 'bufexplorer.zip'                        " Atalhos para navegacao entre buffers
+"Plugin 'Lokaltog/vim-easymotion'                " Facil navegacao entre palavras
+"Plugin 'bufexplorer.zip'                        " Atalhos para navegacao entre buffers
 Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim.
 Plugin 'bling/vim-airline'                      " Uma skin minimalista e objetiva para as barras de status do vim
 Plugin 'tpope/vim-markdown'                     " Habilita a sintaxe de markdown
-Plugin 'evgenyzinoviev/vim-vendetta'            " Tema
 Plugin 'scrooloose/syntastic'                   " Corretor de sintaxe
-Plugin 'burnettk/vim-angular'                   " Corretor de sintaxe para angular
+"Plugin 'burnettk/vim-angular'                   " Corretor de sintaxe para angular
+Plugin 'altercation/vim-colors-solarized'       " Tema
+Plugin 'Lokaltog/vim-distinguished'             " Tema bom para javascript
+Plugin 'tomtom/tcomment_vim'                    " Atalhos para comentários
 
 call vundle#end()
 filetype plugin indent on
@@ -36,8 +37,9 @@ set backspace=2
 set backspace=indent,eol,start
 
 " Color Scheme, identation, etc
-set t_Co=256
-colors vendetta
+set background=dark
+let g:solarized_termcolors=256
+colorscheme distinguished
 set ts=2 sw=2 et
 let g:indent_guides_auto_colors=0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
@@ -109,5 +111,8 @@ let g:syntastic_check_on_wq = 0
 
 let g:syntastic_javascript_checkers = ["jshint"]
 let g:syntastic_dockerfile_checkers = ["dockerfile_lint"]
+let g:syntastic_html_tidy_ignore_errors = [
+  \ 'plain text isn''t allowed in <head> elements' 
+  \ ]
 " ignore angular directives
 " let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']

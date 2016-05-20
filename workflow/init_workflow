@@ -35,7 +35,9 @@ git_configs(){
 
 vim_configs(){
  echo "# Vim configs"
- echo 
+ echo
+ echo "Check if vim is installed"
+ vim --version | grep "VIM" > /dev/null 2>&1 || { echo "vim not installed. Please install it and execute this script again to continue from this step (vim_configs). Aborting. ";  exit 1;} 
  echo "Create a symlink to .vimrc file"
  if [ -f $HOME/.vimrc ] ; then # remove old vimrc
   echo "Renaming old .vimrc file to '.vimrc.old'"
@@ -65,6 +67,19 @@ ctags_configs(){
  echo 
 }
 
+tmux_configs(){
+ echo "# tmux configs"
+ echo
+ echo "Check if tmux is installed"
+ tmux -V | grep "tmux" > /dev/null 2>&1 || { echo "tmux not installed. Please install it and execute this script again to continue from this step (tmux_configs). Aborting. ";  exit 1;}
+ echo "Create a symlink to .tmux file"
+ ln -s $PWD/tmux.conf $HOME/.tmux.conf
+ echo 
+ echo "# Done"
+ echo 
+}
+
+
 
 echo "##"
 echo "# Init Workflow"
@@ -83,15 +98,24 @@ if [ "$CHECKPOINT" = "1" ] ; then
  vim_configs
  checkpoint 3
  ctags_configs 
+ checkpoint 4
+ tmux_configs
  rm $HOME/checkpoint
 elif [ "$CHECKPOINT" = "2" ]; then
  vim_configs
  checkpoint 3
  ctags_configs
+ checkpoint 4
+ tmux_configs
  rm $HOME/checkpoint
 elif [ "$CHECKPOINT" = "3" ]; then
  ctags_configs
+ checkpoint 4
+ tmux_configs
  rm $HOME/checkpoint
+elif [ "$CHECKPOINT" = "4" ]; then
+  tmux_configs
+  rm $HOME/checkpoint
 else
  echo "unknown checkpoint (checkpoint = $CHECKPOINT). Please try again."
 fi
