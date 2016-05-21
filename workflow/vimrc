@@ -26,13 +26,14 @@ Plugin 'scrooloose/syntastic'                   " Corretor de sintaxe
 Plugin 'altercation/vim-colors-solarized'       " Tema
 Plugin 'Lokaltog/vim-distinguished'             " Tema bom para javascript
 Plugin 'tomtom/tcomment_vim'                    " Atalhos para comentários
+Plugin 'jiangmiao/auto-pairs'                   " Fechador automático de parenteses, caracteres, etc.
 
 call vundle#end()
 filetype plugin indent on
 
 " General Configurations
 syntax on
-set number
+"set number
 set relativenumber
 set backspace=2
 set backspace=indent,eol,start
