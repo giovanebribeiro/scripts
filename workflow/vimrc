@@ -119,3 +119,18 @@ let g:syntastic_html_tidy_ignore_errors = [
   \ ]
 " ignore angular directives
 " let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']
+"
+
+"
+" Mapeamento das setas
+"
+
+" Disable the arrow keys 
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
+inoremap <Left> <NOP>
+inoremap <Right> <NOP>
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
