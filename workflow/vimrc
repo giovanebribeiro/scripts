@@ -22,11 +22,14 @@ Plugin 'kien/ctrlp.vim'                         " Um finder melhorado para o vim
 Plugin 'bling/vim-airline'                      " Uma skin minimalista e objetiva para as barras de status do vim
 Plugin 'tpope/vim-markdown'                     " Habilita a sintaxe de markdown
 Plugin 'scrooloose/syntastic'                   " Corretor de sintaxe
-"Plugin 'burnettk/vim-angular'                   " Corretor de sintaxe para angular
-Plugin 'altercation/vim-colors-solarized'       " Tema
-Plugin 'Lokaltog/vim-distinguished'             " Tema bom para javascript
 Plugin 'tomtom/tcomment_vim'                    " Atalhos para comentários
 Plugin 'jiangmiao/auto-pairs'                   " Fechador automático de parenteses, caracteres, etc.
+"Plugin 'burnettk/vim-angular'                   " Corretor de sintaxe para angular
+
+" Temas
+Plugin 'altercation/vim-colors-solarized'       " Tema
+Plugin 'Lokaltog/vim-distinguished'             " Tema bom para javascript
+Plugin 'evgenyzinoviev/vim-vendetta'
 
 call vundle#end()
 filetype plugin indent on
@@ -41,8 +44,8 @@ set backspace=indent,eol,start
 " Color Scheme, identation, etc
 set t_Co=256
 set background=dark
-let g:solarized_termcolors=256
-colorscheme distinguished
+"let g:solarized_termcolors=256
+colorscheme vendetta
 set ts=2 sw=2 et
 let g:indent_guides_auto_colors=0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd guibg=black ctermbg=235
@@ -51,8 +54,9 @@ let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
 let g:indent_guides_enable_on_vim_startup=1 "enable on startup
 
-" recognize json files with javascript syntax
+" recognize specific files with known language syntax
 autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd BufNewFile,BufRead *.wsdl set ft=xml
 
 "
 " Atalhos gerais
