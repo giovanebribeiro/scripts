@@ -109,10 +109,9 @@ title() {
 #⬇
 #Ξ
 #
-#
+# ${bCyan}\u@\h${reset} (giovanebribeiro@localhost)
 
-export PS1="\[\n${reset}\342\224\214 ${bBlue}\d \@${reset} - \$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${reset} - ${bCyan}\u@\h${reset} \]\
-\[\n\342\224\234 ${bYellow}\w${reset} - ${bYellow}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}\]\
+export PS1="\[\n${reset}\342\224\214 ${bYellow}\w${reset} - ${bBlue}$(ls -l | wc -l | sed 's: ::g') files, \$(ls -lah | grep -m 1 total | sed 's/total //')b${reset}\]\
 \[\n\342\224\234 \$(parse_git_branch)${reset} - \
 \$(\
 \$(git status > /dev/null 2>&1);
@@ -129,7 +128,7 @@ export PS1="\[\n${reset}\342\224\214 ${bBlue}\d \@${reset} - \$(if [[ \$? == 0 ]
   fi
   fi
   )${reset} \]\
-  \[\n\342\224\224 \$ "
+  \[\n\342\224\224 \$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${reset} - \$ "
 #  \[\n\342\224\224[\$]\342\206\222 "
 #export PS1="$"
 #export PS1="\[\n${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${bWhite}]-[${rCyan}\u@\h${bWhite}]\
