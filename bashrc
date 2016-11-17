@@ -105,8 +105,7 @@ title() {
 #⌥
 #⌥
 #├
-#⬆
-#⬇
+#⬆ #⬇
 #Ξ
 #
 # ${bCyan}\u@\h${reset} (giovanebribeiro@localhost)
@@ -127,8 +126,8 @@ export PS1="\[\n${reset}\342\224\214 ${bYellow}\w${reset} - ${bBlue}$(ls -l | wc
   echo \"\"${bGreen}\"\316\236\012\";
   fi
   fi
-  )${reset} \]\
-  \[\n\342\224\224 \$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${reset} - \$ "
+  )${reset} - \$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${reset} \]\
+  \[\n\342\224\224 \$ "
 #  \[\n\342\224\224[\$]\342\206\222 "
 #export PS1="$"
 #export PS1="\[\n${bWhite}\342\224\214[${rBlue}\d \@${bWhite}]-[\$(if [[ \$? == 0 ]]; then echo ${bGreen}\"\342\234\223\"; else echo ${bRed}\"\342\234\227\"; fi)${bWhite}]-[${rCyan}\u@\h${bWhite}]\
