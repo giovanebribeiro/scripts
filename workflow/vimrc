@@ -33,13 +33,22 @@ Plugin 'evgenyzinoviev/vim-vendetta'
 
 call vundle#end()
 filetype plugin indent on
-
+"
 " General Configurations
+"
 syntax on
 "set number
 set relativenumber
 set backspace=2
 set backspace=indent,eol,start
+" indentation
+set shiftwidth=4
+set autoindent
+set smartindent
+set cindent
+
+" Allow paste with the mouse when press F5 (in insert mode)
+set pastetoggle=<F5>
 
 " Color Scheme, identation, etc
 set t_Co=256
@@ -116,7 +125,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:syntastic_javascript_checkers = ["jshint"]
+let g:syntastic_javascript_checkers = ["eslint"]
 let g:syntastic_dockerfile_checkers = ["dockerfile_lint"]
 let g:syntastic_html_tidy_ignore_errors = [
   \ 'plain text isn''t allowed in <head> elements' 
