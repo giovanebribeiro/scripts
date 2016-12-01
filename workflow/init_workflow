@@ -79,7 +79,25 @@ tmux_configs(){
  echo 
 }
 
-
+nodejs_configs(){
+ echo "# node configs"
+ echo
+ echo "Check if node is installed"
+ node -v | grep "^v" > /dev/null 2>&1 || { echo "node js not installed. Please install it and execute this script again to continue from this step (nodejs_configs). Aborting. ";  exit 1;}
+ echo "install needed global packages"
+ npm install -g eslint eslint-plugin-json hapi-app-generator pm2
+ echo "add npm author informations"
+ npm set init.author.name "Giovane Boaviagem"
+ npm set init.author.email "giovanebribeiro@gmail.com"
+ npm set init.author.url "http://about.me/giovanebribeiro"
+ echo "save npm credentials"
+ npm adduser
+ echo "create a symlink to .eslintrc file"
+ ln -s $PWD/eslintrc $HOME/.eslintrc
+ echo 
+ echo "# Done"
+ echo 
+}
 
 echo "##"
 echo "# Init Workflow"
@@ -100,6 +118,8 @@ if [ "$CHECKPOINT" = "1" ] ; then
  ctags_configs 
  checkpoint 4
  tmux_configs
+ checkpoint 5
+ nodejs_configs
  rm $HOME/checkpoint
 elif [ "$CHECKPOINT" = "2" ]; then
  vim_configs
@@ -107,14 +127,23 @@ elif [ "$CHECKPOINT" = "2" ]; then
  ctags_configs
  checkpoint 4
  tmux_configs
+ checkpoint 5
+ nodejs_configs
  rm $HOME/checkpoint
 elif [ "$CHECKPOINT" = "3" ]; then
  ctags_configs
  checkpoint 4
  tmux_configs
+ checkpoint 5
+ nodejs_configs
  rm $HOME/checkpoint
 elif [ "$CHECKPOINT" = "4" ]; then
   tmux_configs
+  checkpoint 5
+  nodejs_configs
+  rm $HOME/checkpoint
+elif [ "$CHECKPOINT" = "5" ]; then
+  nodejs_configs
   rm $HOME/checkpoint
 else
  echo "unknown checkpoint (checkpoint = $CHECKPOINT). Please try again."
