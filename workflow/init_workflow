@@ -46,7 +46,7 @@ vim_configs(){
  ln -s $PWD/vimrc $HOME/.vimrc
  echo "Clone the Vundle repo"
  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
- echo "Installong the plugins listed in vimrc file"
+ echo "Installing the plugins listed in vimrc file"
  vim +PluginInstall +qall
  echo 
  echo "# Done"
@@ -85,7 +85,7 @@ nodejs_configs(){
  echo "Check if node is installed"
  node -v | grep "^v" > /dev/null 2>&1 || { echo "node js not installed. Please install it and execute this script again to continue from this step (nodejs_configs). Aborting. ";  exit 1;}
  echo "install needed global packages"
- npm install -g eslint eslint-plugin-json hapi-app-generator pm2
+ npm install -g eslint eslint-plugin-json hapi-app-generator pm2 npm-check-updates
  echo "add npm author informations"
  npm set init.author.name "Giovane Boaviagem"
  npm set init.author.email "giovanebribeiro@gmail.com"
